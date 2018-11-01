@@ -1,0 +1,29 @@
+
+.sendit_form{
+text-align: center;
+}
+
+.sendit_form input{
+
+}
+
+.sendit_form label{
+float: left;
+}
+
+.sendit_form form{
+background-color: #4c4c5a1a;
+min-width: 400px;
+width: 50%;
+margin: 0px auto 0px auto;
+padding: 20px;
+}
+
+.sendit_form form h3{
+margin-top: -5px;
+}
+
+#template_logo{
+	height: 30px;
+	margin-top: 20px;
+}
