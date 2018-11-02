@@ -1,4 +1,4 @@
- 
+
 .sendit_form{
 
 }
@@ -58,32 +58,50 @@ text-align: center;
 
 .profile_row{
 	height: 300px;
+	margin-top: 10px;
 }
 
 #profile_img{
-	max-width: 300px;
-    max-height: 300px;
+	height: inherit;
+	max-height: 300px;
 }
 
 #profile_img_space{
 	width: 20%;
+	overflow: hidden;
 }
 
-#profile_info_space{
-width: 80%;
+.profile_info_space{
+	display: block;
+    height: 300px;
+    
 }
 
-#profile_info_space div{
-	margin: 10px;
+.right{
+	float: right;
 }
 
-#profile_info{
+#profile_info_table{
 margin-left: 10px;
 font-size: x-large;
+padding-right: 10px;
 }
 
-#profile_info th{
- padding-right: 10px;
+#summary_info_table{
+ padding: 0px 50px;
+}
+
+.bg_colour{
+ background-color: #4c4c5a1a;
+}
+
+#summary_info_table td,#summary_info_table th {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#profile_info_table th{
+  padding-right: 10px;
 }
 
 .tablerow th,.tablerow td {
