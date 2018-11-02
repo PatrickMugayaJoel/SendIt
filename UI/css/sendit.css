@@ -47,3 +47,42 @@ text-align: center;
 	height: 30px;
 	margin-top: 20px;
 }
+
+.row {
+  white-space: nowrap;
+}
+
+.row ul, .row div{
+  display: inline-block;
+}
+
+#profile_img{
+	max-width: 300px;
+    max-height: 300px;
+}
+
+.tablerow th,.tablerow td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tablerow table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.tablerow{
+	padding: 20px 0px 20px 0px;
+}
+
+.tablerow div{
+width: 100%;
+}
+
+.tablerow th{
+ text-align: left;
+}
+
+.tablerow td {
+    vertical-align: bottom;
+}
