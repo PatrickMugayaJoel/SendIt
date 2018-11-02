@@ -56,9 +56,34 @@ text-align: center;
   display: inline-block;
 }
 
+.profile_row{
+	height: 300px;
+}
+
 #profile_img{
 	max-width: 300px;
     max-height: 300px;
+}
+
+#profile_img_space{
+	width: 20%;
+}
+
+#profile_info_space{
+width: 80%;
+}
+
+#profile_info_space div{
+	margin: 10px;
+}
+
+#profile_info{
+margin-left: 10px;
+font-size: x-large;
+}
+
+#profile_info th{
+ padding-right: 10px;
 }
 
 .tablerow th,.tablerow td {
@@ -79,7 +104,7 @@ text-align: center;
 width: 100%;
 }
 
-.tablerow th{
+th{
  text-align: left;
 }
 
