@@ -34,8 +34,13 @@ margin: 0px auto 0px auto;
 padding: 20px;
 }
 
-.sendit_form form h3{
+.sendit_form #formheading{
 margin-top: -5px;
+}
+
+.sendit_form #formfooter{
+margin-bottom: -15px;
+text-align: center;
 }
 
 #template_logo{
