@@ -129,3 +129,13 @@ th{
 .tablerow td {
     vertical-align: bottom;
 }
+
+#admin_list{
+color: blue;
+height: 30px;
+}
+
+#admin_form{
+	color: black;
+height: 30px;
+}
