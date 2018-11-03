@@ -268,8 +268,10 @@ height: inherit;
     background-color: blue;
 }
 
+#cancels{
+border: none;
+}
 
 #cancelOD, #cancelCD{
-	border: none;
 	width: 40%;
 }
