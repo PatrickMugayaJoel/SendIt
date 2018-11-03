@@ -1,0 +1,131 @@
+
+.sendit_form{
+
+}
+
+.sendit_form input{
+
+}
+
+.sendit_form label{
+float: left;
+width: 47%;
+}
+
+.sendit_form .inputfield{
+margin: 5px;
+}
+
+.sendit_form input[type=submit]{
+margin-left: 47%;
+width: 52.6%;
+}
+
+.sendit_form input{
+width: 50%;
+padding: 7px;
+}
+
+.sendit_form form{
+background-color: #4c4c5a1a;
+min-width: 400px;
+width: 50%;
+margin: 0px auto 0px auto;
+padding: 20px;
+}
+
+.sendit_form #formheading{
+margin-top: -5px;
+}
+
+.sendit_form #formfooter{
+margin-bottom: -15px;
+text-align: center;
+}
+
+#template_logo{
+	height: 30px;
+	margin-top: 20px;
+}
+
+.row {
+  white-space: nowrap;
+}
+
+.row ul, .row div{
+  display: inline-block;
+}
+
+.profile_row{
+	height: 300px;
+	margin-top: 10px;
+}
+
+#profile_img{
+	height: inherit;
+	max-height: 300px;
+}
+
+#profile_img_space{
+	width: 20%;
+	overflow: hidden;
+}
+
+.profile_info_space{
+	display: block;
+    height: 300px;
+    
+}
+
+.right{
+	float: right;
+}
+
+#profile_info_table{
+margin-left: 10px;
+font-size: x-large;
+padding-right: 10px;
+}
+
+#summary_info_table{
+ padding: 0px 50px;
+}
+
+.bg_colour{
+ background-color: #4c4c5a1a;
+}
+
+#summary_info_table td,#summary_info_table th {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#profile_info_table th{
+  padding-right: 10px;
+}
+
+.tablerow th,.tablerow td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tablerow table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.tablerow{
+	padding: 20px 0px 20px 0px;
+}
+
+.tablerow div{
+width: 100%;
+}
+
+th{
+ text-align: left;
+}
+
+.tablerow td {
+    vertical-align: bottom;
+}
