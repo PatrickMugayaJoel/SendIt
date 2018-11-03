@@ -212,6 +212,11 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
+#profile_info_table th,#profile_info_table td {
+    border: none;
+}
+
+
 #Admin_pg{
 	height: 500px;
 }
@@ -222,4 +227,8 @@ height: inherit;
 
 #admin_form{
 height: inherit;
+}
+
+.create_order #admin_form{
+	margin: 10% 20%;
 }
