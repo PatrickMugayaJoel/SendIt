@@ -232,3 +232,12 @@ height: inherit;
 .create_order #admin_form{
 	margin: 10% 20%;
 }
+
+#Admin_pg .profile_info_space{
+	vertical-align: top;
+	height: auto;
+}
+
+#Admin_pg #summary_info_table{
+	margin: 10px auto 20px auto;
+}
