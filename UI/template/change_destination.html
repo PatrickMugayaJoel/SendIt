@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="../css/sendit.css" >
   <link rel="stylesheet" type="text/css" href="../css/nav.css" >
   <script src="../js/sendit.js" language="javascript" type="text/javascript"></script>
-  <title>SendIt : Profile</title>
+  <title>SendIt : Change destination</title>
 </head>
 <body>
 
@@ -16,13 +16,13 @@
 <ul id="ui_one">
   <li><img id="template_logo" src="../images/logo_w.png"></li>
   <li><a href="./user_profile.html">Profile</a></li>
-  <li><a class="active" href="./admin.html">Update Status</a></li>
+  <li><a href="./admin.html">Update Status</a></li>
   <li><a href="./create_order.html">Create Order</a></li>
   <li><a href="./owened_orders.html">Order Details</a></li>
-  <li><a href="./change_destination.html">Change destination</a></li>
+  <li><a class="active" href="./change_destination.html">Change destination</a></li>
 </ul>
 <ul id="ui_two">
-  <li><h2> Admin Joel, </h2></li>
+  <li><h2> Hi Joel, </h2></li>
   <li><a href="./login.html">Logout</a></li>
 </ul>
 </div>
@@ -105,22 +105,22 @@
 <div id="admin_form" class="column60">
   <div class="sendit_form bg_colour" >
 <form action="#" id="order_status_update" method="Post">
-  <h3 id="formheading">Update Order Information</h3>
+  <h3 id="formheading">Add New Destination</h3>
   <div class="inputfield">
      <label for="order_id">Order ID</label>
      <input id="order_id" disabled="true" type="text" name="order_id" value="23467">
   </div>
   <div class="inputfield">
-     <label for="c_location">Current Location</label>
-     <input id="c_location" type="text" name="c_location" value="mosko">
-  </div>
-  <div class="inputfield">
-     <label for="n_checkp">Next Check Point</label>
-     <input id="n_checkp" type="text" name="n_checkp" value="Kiganda">
-  </div>
-  <div class="inputfield">
      <label for="status">Status</label>
-     <input id="status" type="text" name="status" value="Transit">
+     <input id="status" disabled="true"  type="text" name="status" value="Transit">
+  </div>
+  <div class="inputfield">
+     <label for="old_dectination">Old Destination</label>
+     <input id="old_dectination" disabled="true"  type="text" name="old_dectination" value="mosko">
+  </div>
+  <div class="inputfield">
+     <label for="new_dectination">New Destination</label>
+     <input id="new_dectination" type="text" name="new_dectination" placeholder="Add New Destination">
   </div>
   <div class="inputfield">
      <label for="signup"></label>
