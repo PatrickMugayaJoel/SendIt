@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="icon" href="../images/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="../css/sendit.css" >
+  <link rel="stylesheet" type="text/css" href="../css/nav.css" >
+  <script src="../js/sendit.js" language="javascript" type="text/javascript"></script>
+  <title>SendIt : Profile</title>
+</head>
+<body>
+
+<div class="row">
+<ul id="ui_one">
+  <li><img id="template_logo" src="../images/logo_w.png"></li>
+  <li><a href="./user_profile.html">Profile</a></li>
+  <li><a href="./admin.html">Update Status</a></li>
+  <li><a href="./create_order.html">Create Order</a></li>
+  <li><a class="active" href="./owened_orders.html">Order Details</a></li>
+  <li><a href="./change_destination.html">Change destination</a></li>
+</ul>
+<ul id="ui_two">
+  <li><h2> Hi Joel, </h2></li>
+  <li><a href="./login.html">Logout</a></li>
+</ul>
+</div>
+
+<div class="row" id="Admin_pg">
+<div id="admin_list" class="column40">
+  <div class="search_form bg_colour">
+    <form>
+      <div class="inputfield">
+     <input type="text" name="search" id="search" placeholder="Search">
+  </div>
+    </form>
+  </div><br>
+    <table id="admin_table">
+<tr>
+  <th>Order_ID</th>
+  <th>Current C.P</th>
+  <th>Next C.P</th>
+  <th>Status</th>
+  <th></th>
+  <th></th>
+</tr>
+<tr>
+  <td>12345</td>
+  <td>Kangoji</td>
+  <td>Kiganda</td>
+  <td>Transit</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>74936</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>New order</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>53749</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>New order</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>96413</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>Delivered</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>25347</td>
+  <td>Kisungu</td>
+  <td>Kiganda</td>
+  <td>Transit</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>23467</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>Delivered</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>09812</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>Transit</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+<tr>
+  <td>34568</td>
+  <td>mosko</td>
+  <td>Kiganda</td>
+  <td>Transit</td>
+  <td><a href='#'>Details</a></td>
+</tr>
+    </table>
+</div>
+
+      <div class="profile_info_space column60 bg_colour">
+      <table id="summary_info_table">
+        <tr>
+          <th colspan="2">Delivery Order details</th>
+        </tr>
+        <tr>
+          <td>Order ID</td>
+          <td width="30%">34568</td>
+        </tr>
+        <tr>
+          <td>Pick Up Location</td>
+          <td width="30%">mosko</td>
+        </tr>
+        <tr>
+          <td>Size</td>
+          <td width="30%">10kgs</td>
+        </tr>
+        <tr>
+          <td>Destination</td>
+          <td width="30%">Kiganda</td>
+        </tr>
+         <tr>
+          <td>Status</td>
+          <td width="30%">In transit</td>
+        </tr>
+        <tr>
+          <td>Previous Check Point</td>
+          <td width="30%">Mosko</td>
+        </tr>
+        <tr>
+          <td>Next Check Point</td>
+          <td width="30%">Mwanza</td>
+        </tr>
+        <tr>
+          <td>Arrival date estimate</td>
+          <td width="30%">01-01-2020</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+          <div id="cancelOD">
+            <a href='#'>Cancel Order</a>
+          </div>
+          <div id="cancelCD" class="right">
+            <a href='./change_destination.html'>Change Destination</a>
+          </div>
+          </td>
+        </tr>
+      </table>
+
+  </div>
+
+ </div>
+
+</body>
+</html>

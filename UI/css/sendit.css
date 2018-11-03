@@ -1,0 +1,275 @@
+
+.sendit_form{
+
+}
+
+.sendit_form input{
+
+}
+
+.sendit_form label{
+float: left;
+width: 47%;
+}
+
+.sendit_form .inputfield{
+margin: 5px;
+display: block;
+}
+
+.sendit_form input[type=submit]{
+margin-left: 47%;
+width: 52.6%;
+}
+
+.sendit_form input{
+width: 50%;
+padding: 7px;
+}
+
+.sendit_form form{
+background-color: #4c4c5a1a;
+min-width: 400px;
+width: 50%;
+margin: 0px auto 0px auto;
+padding: 20px;
+}
+
+.sendit_form #formheading{
+margin-top: -5px;
+}
+
+.sendit_form #formfooter{
+margin-bottom: -15px;
+text-align: center;
+}
+
+#admin_form .sendit_form{
+	width: 100%;
+}
+
+#admin_form form{
+	background-color: initial;
+}
+
+#order_status_update{
+	margin: auto;
+}
+
+.search_form{
+	width: 100%;
+}
+
+.search_form .inputfield{
+	width: 100%;
+}
+
+.search_form input{
+	width: 90%;
+padding: 10px;
+margin: 10px;
+}
+
+#template_logo{
+	height: 30px;
+	margin-top: 20px;
+}
+
+.row {
+  white-space: nowrap;
+}
+
+.row ul, .row div{
+  display: inline-block;
+}
+
+.profile_row{
+	height: 300px;
+	margin-top: 10px;
+}
+
+#profile_img{
+	height: inherit;
+	max-height: 300px;
+}
+
+.column10{
+	width: 10%;
+	overflow: hidden;
+}
+
+.column20{
+	width: 20%;
+	overflow: hidden;
+}
+
+.column30{
+	width: 30%;
+	overflow: hidden;
+}
+
+.column40{
+	width: 40%;
+	overflow: hidden;
+}
+
+.column50{
+	width: 50%;
+	overflow: hidden;
+}
+
+.column60{
+	width: 60%;
+	overflow: hidden;
+}
+
+.column70{
+	width: 70%;
+	overflow: hidden;
+}
+
+.column80{
+	width: 80%;
+	overflow: hidden;
+}
+
+.column90{
+	width: 90%;
+	overflow: hidden;
+}
+
+.column100{
+	width: 100%;
+	overflow: hidden;
+}
+
+.profile_info_space{
+    height: 300px;
+}
+
+.right{
+	float: right;
+}
+
+#profile_info_table{
+margin-left: 10px;
+font-size: x-large;
+padding-right: 10px;
+}
+
+#summary_info_table{
+ padding: 0px 50px;
+}
+
+.bg_colour{
+ background-color: #4c4c5a1a;
+}
+
+#summary_info_table td,#summary_info_table th {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#profile_info_table th{
+  padding-right: 10px;
+}
+
+.tablerow th,.tablerow td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tablerow table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.tablerow{
+	padding: 20px 0px 20px 0px;
+}
+
+.tablerow div{
+width: 100%;
+}
+
+th{
+ text-align: left;
+}
+
+td {
+    vertical-align: bottom;
+}
+
+#admin_table td, #admin_table th{
+padding: 5px 0px 0px 5px;
+}
+
+#admin_table{
+	width: 100%;
+}
+
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+
+#profile_info_table th,#profile_info_table td {
+    border: none;
+}
+
+
+#Admin_pg{
+	height: 500px;
+}
+
+#admin_list{
+height: inherit;
+}
+
+#admin_form{
+height: inherit;
+}
+
+.create_order #admin_form{
+	margin: 10% 20%;
+}
+
+#Admin_pg .profile_info_space{
+	vertical-align: top;
+	height: auto;
+}
+
+#Admin_pg #summary_info_table{
+	margin: 10px auto 20px auto;
+}
+
+#cancelOD a:link, #cancelOD a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#cancelOD a:hover, #cancelOD a:active {
+    background-color: red;
+}
+
+#cancelCD a:link, #cancelCD a:visited {
+    background-color: #365af4;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#cancelCD a:hover, #cancelCD a:active {
+    background-color: blue;
+}
+
+
+#cancelOD, #cancelCD{
+	border: none;
+	width: 40%;
+}
