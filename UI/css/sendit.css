@@ -66,15 +66,58 @@ text-align: center;
 	max-height: 300px;
 }
 
-#profile_img_space{
+.column10{
+	width: 10%;
+	overflow: hidden;
+}
+
+.column20{
 	width: 20%;
 	overflow: hidden;
 }
 
+.column30{
+	width: 30%;
+	overflow: hidden;
+}
+
+.column40{
+	width: 40%;
+	overflow: hidden;
+}
+
+.column50{
+	width: 50%;
+	overflow: hidden;
+}
+
+.column60{
+	width: 60%;
+	overflow: hidden;
+}
+
+.column70{
+	width: 70%;
+	overflow: hidden;
+}
+
+.column80{
+	width: 80%;
+	overflow: hidden;
+}
+
+.column90{
+	width: 90%;
+	overflow: hidden;
+}
+
+.column100{
+	width: 100%;
+	overflow: hidden;
+}
+
 .profile_info_space{
-	display: block;
     height: 300px;
-    
 }
 
 .right{
