@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="../css/sendit.css" >
   <link rel="stylesheet" type="text/css" href="../css/nav.css" >
   <script src="../js/sendit.js" language="javascript" type="text/javascript"></script>
-  <title>SendIt : Profile</title>
+  <title>SendIt : Change destination</title>
 </head>
 <body>
 
@@ -18,8 +18,8 @@
   <li><a href="./user_profile.html">Profile</a></li>
   <li><a href="./admin.html">Update Status</a></li>
   <li><a href="./create_order.html">Create Order</a></li>
-  <li><a class="active" href="./owened_orders.html">Order Details</a></li>
-  <li><a href="./change_destination.html">Change destination</a></li>
+  <li><a href="./owened_orders.html">Order Details</a></li>
+  <li><a class="active" href="./change_destination.html">Change destination</a></li>
 </ul>
 <ul id="ui_two">
   <li><h2> Hi Joel, </h2></li>
@@ -43,126 +43,93 @@
   <th>Next C.P</th>
   <th>Status</th>
   <th></th>
-  <th></th>
 </tr>
 <tr>
   <td>12345</td>
   <td>Kangoji</td>
   <td>Kiganda</td>
   <td>Transit</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>74936</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>New order</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>53749</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>New order</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>96413</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>Delivered</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>25347</td>
   <td>Kisungu</td>
   <td>Kiganda</td>
   <td>Transit</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>23467</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>Delivered</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>09812</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>Transit</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
 <tr>
   <td>34568</td>
   <td>mosko</td>
   <td>Kiganda</td>
   <td>Transit</td>
-  <td><a href='#'>Details</a></td>
+  <td><a href='#'>update</a></td>
 </tr>
     </table>
 </div>
-
-      <div class="profile_info_space column60 bg_colour">
-      <table id="summary_info_table">
-        <tr>
-          <th colspan="2">Delivery Order details</th>
-        </tr>
-        <tr>
-          <td>Order ID</td>
-          <td width="30%">34568</td>
-        </tr>
-        <tr>
-          <td>Pick Up Location</td>
-          <td width="30%">mosko</td>
-        </tr>
-        <tr>
-          <td>Size</td>
-          <td width="30%">10kgs</td>
-        </tr>
-        <tr>
-          <td>Destination</td>
-          <td width="30%">Kiganda</td>
-        </tr>
-         <tr>
-          <td>Status</td>
-          <td width="30%">In transit</td>
-        </tr>
-        <tr>
-          <td>Previous Check Point</td>
-          <td width="30%">Mosko</td>
-        </tr>
-        <tr>
-          <td>Next Check Point</td>
-          <td width="30%">Mwanza</td>
-        </tr>
-        <tr>
-          <td>Arrival date estimate</td>
-          <td width="30%">01-01-2020</td>
-        </tr>
-        <tr>
-<<<<<<< HEAD
-          <td id="cancelOD">
-            <a href='#'>Cancel Order</a>
-          </td>
-          <td id="cancelOD">
-            <a href='#'>Cancel Order</a>
-=======
-          <td colspan="2">
-          <div id="cancelOD">
-            <a href='#'>Cancel Order</a>
-          </div>
-          <div id="cancelCD" class="right">
-            <a href='./change_destination.html'>Change Destination</a>
-          </div>
->>>>>>> 31b62559df309631bd2cfae6ecf48db1d9bdd268
-          </td>
-        </tr>
-      </table>
-
+<div id="admin_form" class="column60">
+  <div class="sendit_form bg_colour" >
+<form action="#" id="order_status_update" method="Post">
+  <h3 id="formheading">Add New Destination</h3>
+  <div class="inputfield">
+     <label for="order_id">Order ID</label>
+     <input id="order_id" disabled="true" type="text" name="order_id" value="23467">
   </div>
+  <div class="inputfield">
+     <label for="status">Status</label>
+     <input id="status" disabled="true"  type="text" name="status" value="Transit">
+  </div>
+  <div class="inputfield">
+     <label for="old_dectination">Old Destination</label>
+     <input id="old_dectination" disabled="true"  type="text" name="old_dectination" value="mosko">
+  </div>
+  <div class="inputfield">
+     <label for="new_dectination">New Destination</label>
+     <input id="new_dectination" type="text" name="new_dectination" placeholder="Add New Destination">
+  </div>
+  <div class="inputfield">
+     <label for="signup"></label>
+     <input id="update" type="submit" value="Update" name="update">
+  </div>
+</form>
 
+</div>
+</div>
  </div>
 
 </body>

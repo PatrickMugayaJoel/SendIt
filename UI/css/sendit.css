@@ -255,6 +255,25 @@ height: inherit;
     background-color: red;
 }
 
+<<<<<<< HEAD
 #cancelOD{
+=======
+#cancelCD a:link, #cancelCD a:visited {
+    background-color: #365af4;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#cancelCD a:hover, #cancelCD a:active {
+    background-color: blue;
+}
+
+
+#cancelOD, #cancelCD{
+>>>>>>> 31b62559df309631bd2cfae6ecf48db1d9bdd268
 	border: none;
+	width: 40%;
 }
