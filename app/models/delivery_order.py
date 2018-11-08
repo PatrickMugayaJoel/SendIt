@@ -7,7 +7,8 @@ class DeliveryOrder:
         self.previousCheckpoint = previousCheckpoint
         self.nextCheckpoint = nextCheckpoint
         self.pickupLocation = pickupLocation
+        self.parcelSize = parcelSize
         self.status = status
         self.owner = owner
         self.date = date
-        self.parcelSize = parcelSize
+        
