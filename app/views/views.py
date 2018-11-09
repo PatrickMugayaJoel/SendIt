@@ -60,4 +60,17 @@ def parcelOrders(userID):
             return 'Sorry userID id: %d not found!'%userID
     else:
         return jsonify({'error': "bad request"}), 404
+
+#Cancel a parcel delivery order
+@app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
+def parcelOrder(orderID):
+    if request.method == 'PUT':
+        parcel = next(item for item in parcelorders if item["orderID"] == orderID)
+        parcel['status'] = 'Canceled'
+        if parcel:
+            return jsonify(parcel)
+        else:
+            return 'Sorry parcel order id: %d not found!'%orderID
+    else:
+        return jsonify({'error': "bad request"}), 404
         
