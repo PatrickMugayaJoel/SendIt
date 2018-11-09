@@ -47,4 +47,17 @@ def deliveryOrder(orderID):
         else:
             return 'Sorry parcel id: %d not found!'%orderID
     else:
-        return jsonify({'error': "bad request"}), 404        
+        return jsonify({'error': "bad request"}), 404
+
+#Get a parcels by userID
+@app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
+def parcelOrders(userID):
+    if request.method == 'GET':
+        userparcel = list(filter(lambda parcel: parcel['owner'] == userID, parcelorders))
+        if len(userparcel):
+            return jsonify(userparcel)
+        else:
+            return 'Sorry userID id: %d not found!'%userID
+    else:
+        return jsonify({'error': "bad request"}), 404
+        
