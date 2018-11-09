@@ -5,16 +5,17 @@ from app.models.delivery_order import DeliveryOrder
 from app.models.user import User
 from app.utils.controllers import create_id
 parcelorders = []
+
 #index route
 @app.route('/')
 def home():
     return "Welcome to SendIT."
 
-#get all delivery orders
+#get all delivery orders & post a delivery order
 @app.route('/api/v1/parcels', methods=['GET','POST'])
 def deliveryOrder():
     if request.method == 'GET':
-        
+
         if parcelorders:
             return jsonify(parcelorders)
         else:
@@ -23,28 +24,15 @@ def deliveryOrder():
 
         data = request.get_json()
 
-        # Get the fields which were sent
-        destination = data.get("destination")
-        previousCheckpoint = data.get("previousCheckpoint")
-        nextCheckpoint = data.get("nextCheckpoint")
-        pickupLocation = data.get("pickupLocation")
-        parcelSize = data.get("parcelSize")
-        status = data.get("status")
-        owner = data.get("owner")
-        date = datetime.datetime
-
+        #generate an id
         orderID = create_id(parcelorders)
 
-        # create a delivery order object
-        new_order = DeliveryOrder(orderID=orderID, destination=destination, previousCheckpoint=previousCheckpoint, nextCheckpoint=nextCheckpoint, pickupLocation=pickupLocation, parcelSize=parcelSize, status=status, owner=owner, date=date)
+        data['orderID'] = orderID
 
         # appends the delivery orders object to list
-        parcelorders.append(new_order)
+        parcelorders.append(data)
 
-        return jsonify({
-            "message": "Parcel Order successfully created",
-            "order": new_order.__dict__
-            }), 201
+        return jsonify(data), 201
 
     else:
         return jsonify({'error': "bad request"}), 404

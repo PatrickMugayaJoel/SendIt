@@ -12,4 +12,3 @@ class DeliveryOrder:
         self.status = status
         self.owner = owner
         self.date = date
-        
