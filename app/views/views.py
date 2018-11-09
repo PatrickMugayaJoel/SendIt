@@ -13,7 +13,7 @@ def home():
 
 #get all delivery orders & post a delivery order
 @app.route('/api/v1/parcels', methods=['GET','POST'])
-def deliveryOrder():
+def deliveryOrders():
     if request.method == 'GET':
 
         if parcelorders:
@@ -36,4 +36,15 @@ def deliveryOrder():
 
     else:
         return jsonify({'error': "bad request"}), 404
-        
+
+#Get a parcel by ID
+@app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
+def deliveryOrder(orderID):
+    if request.method == 'GET':
+        parcel = [item for item in parcelorders if item["orderID"] == orderID]
+        if len(parcel):
+            return jsonify(parcel)
+        else:
+            return 'Sorry parcel id: %d not found!'%orderID
+    else:
+        return jsonify({'error': "bad request"}), 404        
