@@ -8,7 +8,7 @@ python:
   
 before_install:
   - pip install -r requirements.txt
-  #- "python run.py install
+  - "python run.py install
 
 script:
   - pytest
