@@ -6,7 +6,6 @@ test_parcel_delivery_orders.py File to test parcel order endpoints
 import unittest
 import json
 import sys
-sys.path.append('../')
 from app.__init__ import app
 from app.views import views
 
@@ -32,22 +31,22 @@ class test_parcel_orders(unittest.TestCase):
     #test get parcels route loads
     def test_get_parcels_loads(self):
         response = self.test.get('/api/v1/parcels', content_type='html/text')
-        self.assertEqual(response.status_code,204)
+        self.assertEqual(response.status_code,203)
     
     #test posting an empty parcel
     def test_post_empty_parcels(self):
         response = self.test.post('/api/v1/parcels', content_type='html/text')
-        self.assertEqual(response.status_code,204)
+        self.assertEqual(response.status_code,203)
     
     #test get parcel by id
     def test_get_parcel_by_id(self):
         response = self.test.get('/api/v1/parcels/3', content_type='html/text')
-        self.assertEqual(response.status_code,204)
+        self.assertEqual(response.status_code,203)
         
     #test get parcel by userid
     def test_get_parcel_by_userid(self):
         response = self.test.get('/api/v1/users/4/parcels', content_type='html/text')
-        self.assertEqual(response.status_code,204)
+        self.assertEqual(response.status_code,203)
        
     #test posting with parcel data
     def test_post_data_parcels(self):
@@ -60,7 +59,7 @@ class test_parcel_orders(unittest.TestCase):
     #test cancel parcel
     def test_cancel_parcel(self):
         response = self.test.put('/api/v1/parcels/3/cancel', content_type='html/text')
-        self.assertEqual(response.status_code,204)
+        self.assertEqual(response.status_code,203)
 
 if __name__ == '__main__':
     unittest.main

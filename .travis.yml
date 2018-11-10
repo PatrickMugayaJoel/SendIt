@@ -2,12 +2,16 @@ language: python
 
 python:
   - "3.6.5"
+
+#virtualenv:
+#  system_site_packages: true
   
-install:
+before_install:
   - pip install -r requirements.txt
+  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - nosetests --with-cov --cov  ./
+  - pytest
   
 after_success:
   - codecov
