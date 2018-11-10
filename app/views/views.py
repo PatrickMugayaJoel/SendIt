@@ -16,7 +16,7 @@ def deliveryOrders():
 
         if parcelorders:
             return jsonify(parcelorders), 200
-        return jsonify({"message":"There are no orders to display"}), 204
+        return jsonify({"message":"There are no orders to display"}), 203
     if request.method == 'POST':
 
         data = request.get_json()
@@ -30,7 +30,7 @@ def deliveryOrders():
             # appends the delivery orders object to list
             parcelorders.append(data)
             return jsonify(data), 201
-        return jsonify({"message":"No data was posted"}), 204        
+        return jsonify({"message":"No data was posted"}), 203        
     return jsonify({'error': "bad request"}), 400
 
 #Get a parcel by ID
@@ -40,7 +40,7 @@ def deliveryOrder(orderID):
         parcel = [item for item in parcelorders if item["orderID"] == orderID]
         if parcel:
             return jsonify(parcel), 200
-        return 'Sorry parcel id: %d not found!'%orderID, 204
+        return 'Sorry parcel id: %d not found!'%orderID, 203
     return jsonify({'error': "bad request"}), 400
 
 #Get a parcels by userID
@@ -50,7 +50,7 @@ def parcelOrders(userID):
         userparcel = list(filter(lambda parcel: parcel['owner'] == userID, parcelorders))
         if userparcel:
             return jsonify(userparcel), 200
-        return 'Sorry userID id: %d not found!'%userID, 204
+        return 'Sorry userID id: %d not found!'%userID, 203
     return jsonify({'error': "bad request"}), 400
 
 #Cancel a parcel delivery order
@@ -62,7 +62,7 @@ def parcelOrder(orderID):
             if parcel:
                 parcel['status'] = 'Canceled'
                 return jsonify(parcel), 200
-            return 'Sorry parcel order id: %d not found!'%orderID, 204
-        return 'Sorry No parcel orders found!', 204
+            return 'Sorry parcel order id: %d not found!'%orderID, 203
+        return 'Sorry No parcel orders found!', 203
     return jsonify({'error': "bad request"}), 400
         
