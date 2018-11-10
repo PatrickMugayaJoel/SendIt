@@ -6,7 +6,6 @@ test_parcel_delivery_orders.py File to test parcel order endpoints
 import unittest
 import json
 import sys
-sys.path.append('../')
 from app.__init__ import app
 from app.views import views
 
