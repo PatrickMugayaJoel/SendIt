@@ -8,7 +8,7 @@ import pytest
 import json
 import sys
 sys.path.append('../')
-from app import app
+from app.__init__ import app
 from app.views import views
 
 class Test_parcel_orders(unittest.TestCase):

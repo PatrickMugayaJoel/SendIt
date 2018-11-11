@@ -1,6 +1,6 @@
 
 from flask import jsonify, request
-from app import app
+from app.__init__ import app
 from app.utils.controllers import create_id
 parcelorders = []
 

@@ -5,7 +5,7 @@ test_parcel_delivery_orders.py File to test parcel order endpoints
 
 import unittest
 import json
-from app import app
+from app.__init__ import app
 
 class test_parcel_orders(unittest.TestCase):
 
