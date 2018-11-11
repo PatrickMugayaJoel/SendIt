@@ -1,7 +1,11 @@
-"""User model structure"""
+"""
+User model structure
+"""
 
 class User:
-    """User model structure"""
+    """
+    User model structure
+    """
     def __init__(self, name, username, password, role):
         self.name = name
         self.username = username
