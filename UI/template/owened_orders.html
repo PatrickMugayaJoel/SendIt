@@ -26,134 +26,105 @@
 </div>
 
 <div class="row" id="Admin_pg">
-<div id="admin_list" class="column40">
-  <div class="search_form bg_colour">
-    <form>
-      <div class="inputfield">
-     <input type="text" name="search" id="search" placeholder="Search">
-  </div>
-    </form>
-  </div><br>
-    <table id="admin_table">
-<tr>
-  <th>Order_ID</th>
-  <th>Current C.P</th>
-  <th>Next C.P</th>
-  <th>Status</th>
-  <th></th>
-  <th></th>
-</tr>
-<tr>
-  <td>12345</td>
-  <td>Kangoji</td>
-  <td>Kiganda</td>
-  <td>Transit</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>74936</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>New order</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>53749</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>New order</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>96413</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>Delivered</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>25347</td>
-  <td>Kisungu</td>
-  <td>Kiganda</td>
-  <td>Transit</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>23467</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>Delivered</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>09812</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>Transit</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-<tr>
-  <td>34568</td>
-  <td>mosko</td>
-  <td>Kiganda</td>
-  <td>Transit</td>
-  <td><a href='#'>Details</a></td>
-</tr>
-    </table>
+
+  <div class="profile_info_space column50 bg_colour">
+  <table id="summary_info_table">
+    <tr>
+      <th colspan="2">Delivery Order details</th>
+    </tr>
+    <tr>
+      <td>Order ID</td>
+      <td>34568</td>
+    </tr>
+    <tr>
+      <td>Pick Up Location</td>
+      <td>mosko</td>
+    </tr>
+    <tr>
+      <td>Destination</td>
+      <td>Kiganda</td>
+    </tr>
+    <tr>
+      <td>Previous Check Point</td>
+      <td>Mosko</td>
+    </tr>
+    <tr>
+      <td>Next Check Point</td>
+      <td>Mwanza</td>
+    </tr>
+    <tr>
+      <td>Parcel Size</td>
+      <td>10kgs, 30x25x30cm</td>
+    </tr>
+    <tr>
+     <td>Delivery Cost</td>
+     <td>Shs 120,000</td>
+   </tr>
+   <tr>
+    <td>Status</td>
+    <td>In transit</td>
+  </tr>
+    <tr>
+      <td>Arrival date estimate</td>
+      <td>01-01-2020</td>
+    </tr>
+    <tr>
+    </tr>
+  </table>
+
 </div>
 
-      <div class="profile_info_space column60 bg_colour">
-      <table id="summary_info_table">
-        <tr>
-          <th colspan="2">Delivery Order details</th>
-        </tr>
-        <tr>
-          <td>Order ID</td>
-          <td width="30%">34568</td>
-        </tr>
-        <tr>
-          <td>Pick Up Location</td>
-          <td width="30%">mosko</td>
-        </tr>
-        <tr>
-          <td>Size</td>
-          <td width="30%">10kgs</td>
-        </tr>
-        <tr>
-          <td>Destination</td>
-          <td width="30%">Kiganda</td>
-        </tr>
-         <tr>
-          <td>Status</td>
-          <td width="30%">In transit</td>
-        </tr>
-        <tr>
-          <td>Previous Check Point</td>
-          <td width="30%">Mosko</td>
-        </tr>
-        <tr>
-          <td>Next Check Point</td>
-          <td width="30%">Mwanza</td>
-        </tr>
-        <tr>
-          <td>Arrival date estimate</td>
-          <td width="30%">01-01-2020</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-          <div id="cancelOD">
-            <a href='#'>Cancel Order</a>
-          </div>
-          <div id="cancelCD" class="right">
-            <a href='./change_destination.html'>Change Destination</a>
-          </div>
-          </td>
-        </tr>
-      </table>
+<div id="admin_form" class="column50">
+<div class="sendit_form bg_colour" >
+<form action="#" id="order_status_update" method="Post">
+<h3 id="formheading">Update Delivery Order Details</h3>
+<div class="inputfield">
+ <label for="order_id">Order ID</label>
+ <input id="order_id" disabled="true" type="text" name="order_id" value="23467">
+</div>
+<div class="inputfield">
+ <label for="p_location">Pickup Location</label>
+ <input id="p_location" disabled="true" type="text" name="p_location" value="Mukyalo">
+</div>
+<div class="inputfield">
+ <label for="destination">Destination</label>
+ <input id="destination" type="text" name="destination" value="mosko">
+</div>
+<div class="inputfield">
+ <label for="p_checkp">Previous Check Point</label>
+ <input id="p_checkp" disabled="true" type="text" name="p_checkp" value="Mwanza">
+</div>
+<div class="inputfield">
+ <label for="n_checkp">Next Check Point</label>
+ <input id="n_checkp" disabled="true" type="text" name="n_checkp" value="Kiganda">
+</div>
+<div class="inputfield">
+ <label for="parcel_size">Parcel Size</label>
+ <input id="parcel_size" disabled="true" type="text" name="parcel_size" value="10kgs, 30x25x30cm">
+</div>
+<div class="inputfield">
+ <label for="delivery_cost">Delivery Cost</label>
+ <input id="delivery_cost" disabled="true" type="text" name="delivery_cost" value="Shs 23,000">
+</div>
+<div class="inputfield">
+ <label for="status">Status</label>
+ <input id="status" disabled="true" type="text" name="status" value="Transit">
+</div>
+<div class="inputfield">
+ <label for="delivery_date">Expected Delivery Date</label>
+ <input id="delivery_date" disabled="true" type="text" name="delivery_date" value="01-01-2020">
+</div>
+<div class="inputfield">
+  <span id="cancelOD">
+    <a href='#'>Cancel Order</a>
+    <input id="update" type="submit" value="Update " name="update">
+  </span>
+</div>
+</form>
+</div>
+</div>
 
-  </div>
-
- </div>
+</div>
 
 </body>
 </html>

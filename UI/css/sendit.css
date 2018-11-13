@@ -58,6 +58,12 @@ text-align: center;
 	width: 80%;
 }
 
+#order_status_update input[type=submit]{
+	margin-left: 2%;
+    width: 53.5%;
+    padding: 9px 10px;
+	}
+
 .search_form{
 	width: 100%;
 }
@@ -255,7 +261,7 @@ height: inherit;
 #cancelOD a:link, #cancelOD a:visited {
     background-color: #f44336;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -265,24 +271,15 @@ height: inherit;
     background-color: red;
 }
 
-#cancelCD a:link, #cancelCD a:visited {
-    background-color: #365af4;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-
-#cancelCD a:hover, #cancelCD a:active {
-    background-color: blue;
-}
-
-#cancelOD, #cancelCD{
-	border: none;
-	width: 28%;
+#cancelOD a{
+	width: 40%;
 }
 
 #Admintag{
 	text-align: center;
+}
+
+#create_order_form{
+	width: 100%;
+	margin-top: 30px;
 }
