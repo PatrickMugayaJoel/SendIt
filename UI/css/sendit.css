@@ -19,7 +19,7 @@ display: block;
 
 .sendit_form input[type=submit]{
 margin-left: 47%;
-width: 52.6%;
+width: 53.6%;
 }
 
 .sendit_form input{
@@ -54,6 +54,8 @@ text-align: center;
 
 #order_status_update{
 	margin: auto;
+	text-align: left;
+	width: 80%;
 }
 
 .search_form{
@@ -66,6 +68,12 @@ text-align: center;
 
 .search_form input{
 	width: 90%;
+padding: 10px;
+margin: 10px;
+}
+
+.admin .search_form input{
+	width: 25%;
 padding: 10px;
 margin: 10px;
 }
@@ -84,7 +92,6 @@ margin: 10px;
 }
 
 .profile_row{
-	height: 300px;
 	margin-top: 10px;
 }
 
@@ -159,6 +166,7 @@ padding-right: 10px;
 
 #summary_info_table{
  padding: 0px 50px;
+ text-align: left;
 }
 
 .bg_colour{
@@ -167,7 +175,8 @@ padding-right: 10px;
 
 #summary_info_table td,#summary_info_table th {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	width: 10%;
 }
 
 #profile_info_table th{
@@ -186,6 +195,7 @@ padding-right: 10px;
 
 .tablerow{
 	padding: 20px 0px 20px 0px;
+	overflow: auto;
 }
 
 .tablerow div{
@@ -218,7 +228,7 @@ th, td {
 
 
 #Admin_pg{
-	height: 500px;
+	text-align: center;
 }
 
 #admin_list{
@@ -264,24 +274,11 @@ height: inherit;
     display: inline-block;
 }
 
-#cancelUS a:link, #cancelUS a:visited {
-    background-color: rgb(130, 192, 37);
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-
 #cancelCD a:hover, #cancelCD a:active {
     background-color: blue;
 }
 
-#cancelUS a:hover, #cancelUS a:active {
-    background-color: greenyellow;
-}
-
-#cancelOD, #cancelCD, #cancelUS{
+#cancelOD, #cancelCD{
 	border: none;
 	width: 28%;
 }
