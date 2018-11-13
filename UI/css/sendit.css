@@ -39,8 +39,8 @@ padding: 20px;
 margin-top: -5px;
 }
 
-.sendit_form #formfooter{
-margin-bottom: -15px;
+.sendit_form .formfooter{
+margin-bottom: -18px;
 text-align: center;
 }
 
