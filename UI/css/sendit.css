@@ -268,8 +268,11 @@ height: inherit;
     background-color: blue;
 }
 
-
 #cancelOD, #cancelCD{
 	border: none;
 	width: 40%;
+}
+
+#Admintag{
+	text-align: center;
 }
