@@ -84,3 +84,12 @@ def parcelOrder(orderID):
             return 'Sorry parcel order id: %d not found!'%orderID, 203
         return 'Sorry No parcel orders found!', 203
     return jsonify({'error': "bad request"}), 400
+
+#Clear parcels in memory
+@app.route('/parcels/cancel', methods=['GET'])
+def cancelparcels():
+    """
+    canceling a parcel
+    """
+    del parcelorders[:]
+    return 'No result',204
