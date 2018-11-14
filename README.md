@@ -29,6 +29,14 @@ For installation of this project:  `$ https://github.com/PatrickMugayaJoel/SendI
 
 * HTML
 * CSS
+ 
+# Installing
+
+* Clone this: https://github.com/PatrickMugayaJoel/SendIt.git
+* Install python
+* Setup a virtual enviroment and activate it
+* Install flask
+* run the 'run.py' file in the root directory.
 
 ## Run the app
 

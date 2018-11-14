@@ -11,7 +11,7 @@ before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - pytest
+  - pytest --cov=./
   
 after_success:
   - codecov
