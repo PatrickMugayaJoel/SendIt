@@ -2,16 +2,15 @@ language: python
 
 python:
   - "3.6.5"
-
-#virtualenv:
-#  system_site_packages: true
   
 before_install:
+  - pip install -U pip
+  - pip install -U tox coverage coveralls
   - pip install -r requirements.txt
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - pytest
+  - pytest #--cov=./
   
 after_success:
   - codecov
