@@ -2,9 +2,6 @@ language: python
 
 python:
   - "3.6.5"
-
-#virtualenv:
-#  system_site_packages: true
   
 before_install:
   - pip install -U pip
@@ -13,7 +10,7 @@ before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - pytest --cov=./
+  - pytest #--cov=./
   
 after_success:
   - codecov
