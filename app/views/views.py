@@ -37,8 +37,7 @@ def deliveryOrderspost():
         user = [item["userid"] for item in users if item["userid"] == data["userid"]]
         if user[0]:
             #generate an id
-            orderID = create_id(parcelorders)
-            data['orderID'] = orderID
+            data['orderID'] = create_id(parcelorders)
             # appends the delivery orders object to list
             parcelorders.append(data)
             return jsonify(data), 201
@@ -89,8 +88,7 @@ def createuserpost():
     data = request.get_json()
     if data:
         #generate an id
-        userid = create_id(users)
-        data['userid'] = userid
+        data['userid'] = create_id(users)
         # appends user object to list
         users.append(data)
         return jsonify(data), 201
