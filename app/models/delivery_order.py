@@ -6,13 +6,14 @@ class DeliveryOrder:
     """
     parcel delivery order model structure
     """
-    def __init__(self, orderID, destination, previousCheckpoint, nextCheckpoint, pickupLocation, parcelSize, status, owner, date):
-        self.orderID = orderID
-        self.destination = destination
-        self.previousCheckpoint = previousCheckpoint
-        self.nextCheckpoint = nextCheckpoint
-        self.pickupLocation = pickupLocation
-        self.parcelSize = parcelSize
-        self.status = status
-        self.owner = owner
-        self.date = date
+    def __init__(self, parcelorders):
+        self.orderID = parcelorders['orderID']
+        self.destination = parcelorders['destination']
+        self.previousCheckpoint = parcelorders['previousCheckpoint']
+        self.nextCheckpoint = parcelorders['nextCheckpoint']
+        self.pickupLocation = parcelorders['pickupLocation']
+        self.parcelSize = parcelorders['parcelSize']
+        self.price = parcelorders['price']
+        self.status = parcelorders['status']
+        self.userid = parcelorders['userid']
+        self.date = parcelorders['date']
