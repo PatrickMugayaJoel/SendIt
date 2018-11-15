@@ -10,7 +10,7 @@ before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - pytest
+  - nosetests --with-cov --cov tests/
   
 after_success:
   - codecov
