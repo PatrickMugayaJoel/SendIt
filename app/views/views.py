@@ -5,19 +5,47 @@ routes file
 from flask import jsonify, request
 from app import app
 from app.utils.controllers import create_id
+from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity )
 parcelorders = []
-users = [{"userid":1, "username":"Josean", "password":"password", "role":"Admin"}]
+users = [{"userid":1, "username":"admin", "password":"admin", "role":"Admin"}]
 
 #index route
 @app.route('/')
+@jwt_required
 def home():
     """
     home route
     """
-    return "Welcome to SendIT.", 200
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+#Login route
+@app.route('/api/v1/login', methods=['POST'])
+def login():
+    """
+    login route
+    """
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON data"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+
+    if not username:
+        return jsonify({"msg": "Missing username"}), 400
+
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    if username != 'admin' or password != 'admin':
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
 
 #get all delivery orders
 @app.route('/api/v1/parcels', methods=['GET'])
+@jwt_required
 def deliveryOrders():
     """
     get parcels route
@@ -28,6 +56,7 @@ def deliveryOrders():
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
+@jwt_required
 def deliveryOrderspost():
     """
     post parcels route
@@ -45,6 +74,7 @@ def deliveryOrderspost():
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
+@jwt_required
 def delivery_Order(orderID):
     """
     selecting a parcel by id
@@ -56,6 +86,7 @@ def delivery_Order(orderID):
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
+@jwt_required
 def parcelOrders(userID):
     """
     selscting parcel by userid
@@ -67,6 +98,7 @@ def parcelOrders(userID):
 
 #Cancel a parcel delivery order
 @app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
+@jwt_required
 def parcelOrder(orderID):
     """
     canceling a parcel
@@ -81,6 +113,7 @@ def parcelOrder(orderID):
 
 #post. create a user
 @app.route('/api/v1/users', methods=['POST'])
+@jwt_required
 def createuserpost():
     """
     post. create users route
@@ -96,6 +129,7 @@ def createuserpost():
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
+@jwt_required
 def getusers():
     """
     get users route
@@ -106,6 +140,7 @@ def getusers():
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
+@jwt_required
 def getuser_byid(userid):
     """
     get a user by id
