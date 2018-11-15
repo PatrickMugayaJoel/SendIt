@@ -10,7 +10,7 @@ before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - nose-cob
+  - nose
   
 after_success:
   - codecov
