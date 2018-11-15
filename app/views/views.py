@@ -45,7 +45,7 @@ def deliveryOrderspost():
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-def deliveryOrder(orderID):
+def delivery_Order(orderID):
     """
     selecting a parcel by id
     """
@@ -106,7 +106,7 @@ def getusers():
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
-def getuserbyid(userid):
+def getuser_byid(userid):
     """
     get a user by id
     """
