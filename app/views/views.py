@@ -31,12 +31,6 @@ def login():
     username = request.json.get('username', None)
     password = request.json.get('password', None)
 
-    if not username:
-        return jsonify({"msg": "Missing username"}), 400
-
-    if not password:
-        return jsonify({"msg": "Missing password parameter"}), 400
-
     if username != 'admin' or password != 'admin':
         return jsonify({"msg": "Bad username or password"}), 401
 
