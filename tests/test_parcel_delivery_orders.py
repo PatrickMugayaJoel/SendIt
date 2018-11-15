@@ -21,6 +21,10 @@ class test_parcel_orders(unittest.TestCase):
         self.parcel = {"orderID":"DO_1", "status":"in transit", "userid":1}
         self.user = {"userid":"DO_1", "username":"Josean", "password":"password", "role":"Admin"}
         self.test.get('/users/cancel')
+        response = self.test.post('/api/v1/login', data=json.dumps({"username":"admin", "password":"admin"}), content_type='application/json')
+        data = json.loads(response.data)
+        token = data.get('access_token')
+        self.headers = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
 
     def tearDown(self):
         """
@@ -34,7 +38,7 @@ class test_parcel_orders(unittest.TestCase):
         """
         test index page
         """
-        response = self.test.get('/', content_type='html/text')
+        response = self.test.get('/', headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
     #test get parcels route loads
@@ -42,7 +46,7 @@ class test_parcel_orders(unittest.TestCase):
         """
         test parcels page
         """
-        response = self.test.get('/api/v1/parcels', content_type='html/text')
+        response = self.test.get('/api/v1/parcels', headers=self.headers)
         self.assertEqual(response.status_code, 404)
 
     #test posting an empty parcel
@@ -50,23 +54,23 @@ class test_parcel_orders(unittest.TestCase):
         """
         parcels page with empty list
         """
-        response = self.test.post('/api/v1/parcels', content_type='html/text')
-        self.assertEqual(response.status_code, 404)
+        response = self.test.post('/api/v1/parcels', headers=self.headers)
+        self.assertEqual(response.status_code, 400)
 
     #test posting an empty user
     def test_post_empty_user(self):
         """
         user page with empty list
         """
-        response = self.test.post('/api/v1/users', content_type='html/text')
-        self.assertEqual(response.status_code, 404)
+        response = self.test.post('/api/v1/users', headers=self.headers)
+        self.assertEqual(response.status_code, 400)
 
     #test get parcel by id
     def test_get_parcel_by_id(self):
         """
         get a parcel by its id
         """
-        response = self.test.get('/api/v1/parcels/3', content_type='html/text')
+        response = self.test.get('/api/v1/parcels/3', headers=self.headers)
         self.assertEqual(response.status_code, 404)
 
     #test get user by id
@@ -74,7 +78,7 @@ class test_parcel_orders(unittest.TestCase):
         """
         get a user by id
         """
-        response = self.test.get('/api/v1/users/3', content_type='html/text')
+        response = self.test.get('/api/v1/users/3', headers=self.headers)
         self.assertEqual(response.status_code, 404)
 
     #test get parcel by userid
@@ -82,7 +86,7 @@ class test_parcel_orders(unittest.TestCase):
         """
         get parcels by user id
         """
-        response = self.test.get('/api/v1/users/4/parcels', content_type='html/text')
+        response = self.test.get('/api/v1/users/4/parcels', headers=self.headers)
         self.assertEqual(response.status_code, 404)
 
     #test posting with parcel data
@@ -90,8 +94,8 @@ class test_parcel_orders(unittest.TestCase):
         """
         posting parcel data
         """
-        self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
-        res = self.test.post("/api/v1/parcels", headers={"Content-Type": "application/json"}, data=json.dumps(self.parcel))
+        self.test.post("/api/v1/users", headers=self.headers, data=json.dumps(self.user))
+        res = self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
         res_data = json.loads(res.data)
         expected_output = {"orderID":1, "status":"in transit", "userid":1}
         self.assertEqual(res.status_code, 201)
@@ -102,7 +106,7 @@ class test_parcel_orders(unittest.TestCase):
         """
         posting user data
         """
-        res = self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
+        res = self.test.post("/api/v1/users", headers=self.headers, data=json.dumps(self.user))
         res_data = json.loads(res.data)
         expected_output = {"userid":1, "username":"Josean", "password":"password", "role":"Admin"}
         self.assertEqual(res.status_code, 201)
@@ -113,5 +117,5 @@ class test_parcel_orders(unittest.TestCase):
         """
         cancel a parcel
         """
-        response = self.test.put('/api/v1/parcels/3/cancel', content_type='html/text')
+        response = self.test.put('/api/v1/parcels/3/cancel', headers=self.headers)
         self.assertEqual(response.status_code, 404)
