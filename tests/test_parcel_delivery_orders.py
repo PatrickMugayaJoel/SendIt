@@ -90,7 +90,6 @@ class test_parcel_orders(unittest.TestCase):
         """
         posting parcel data
         """
-        
         self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         res = self.test.post("/api/v1/parcels", headers={"Content-Type": "application/json"}, data=json.dumps(self.parcel))
         res_data = json.loads(res.data)
