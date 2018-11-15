@@ -16,7 +16,10 @@ class test_parcel_orders(unittest.TestCase):
         """
         self.test = app.test_client()
         self.test.get('/parcels/cancel')
-        self.parcel = {"orderID":"DO_1", "status":"in transit", "owner":2}
+        self.test.get('/users/cancel')
+        self.parcel = {"orderID":"DO_1", "status":"in transit", "userid":1}
+        self.user = {"userid":"DO_1", "username":"Josean", "password":"password", "role":"Admin"}
+        self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         self.test.post("/api/v1/parcels", headers={"Content-Type": "application/json"}, data=json.dumps(self.parcel))
 
     def tearDown(self):
@@ -31,11 +34,10 @@ class test_parcel_orders(unittest.TestCase):
         """
         testing cancel parcel with data
         """
-
         response = self.test.put('/api/v1/parcels/1/cancel')
         res_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        expected_output = {'orderID': 1, 'status': 'Canceled', 'owner': 2}
+        expected_output = {'orderID': 1, 'status': 'Canceled', 'userid': 1}
         self.assertEqual(res_data, expected_output)
 
     #test get parcels route loads the data
@@ -43,11 +45,11 @@ class test_parcel_orders(unittest.TestCase):
         """
         test loading parcel data
         """
-        
         response = self.test.get('/api/v1/parcels')
         res_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        expected_output = [{'orderID': 1, 'owner': 2, 'status': 'in transit'}]
+        self.assertTrue(b'status' in response.data)
+        expected_output = [{'orderID': 1, 'userid': 1, 'status': 'in transit'}]
         self.assertEqual(res_data, expected_output)
 
     #test get parcels route by id loads the data
@@ -55,11 +57,10 @@ class test_parcel_orders(unittest.TestCase):
         """
         picking a parcel with data
         """
-
         response = self.test.get('/api/v1/parcels/1')
         res_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        expected_output = [{'orderID': 1, 'owner': 2, 'status': 'in transit'}]
+        expected_output = [{'orderID': 1, 'userid': 1, 'status': 'in transit'}]
         self.assertEqual(res_data, expected_output)
 
     #test get parcels route by userid loads the data
@@ -67,9 +68,31 @@ class test_parcel_orders(unittest.TestCase):
         """
         picking parcels with userid
         """
-
-        response = self.test.get('/api/v1/users/2/parcels')
+        response = self.test.get('/api/v1/users/1/parcels')
         res_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        expected_output = [{'orderID': 1, 'owner': 2, 'status': 'in transit'}]
+        expected_output = [{'orderID': 1, 'userid': 1, 'status': 'in transit'}]
+        self.assertEqual(res_data, expected_output)
+
+    #test get users route loads the data
+    def test_get_users_loads_data(self):
+        """
+        test loading users data
+        """
+        response = self.test.get('/api/v1/users')
+        res_data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(b'username' in response.data)
+        expected_output = [{"userid":1, "username":"Josean", "password":"password", "role":"Admin"}]
+        self.assertEqual(res_data, expected_output)
+
+    #test get users route by id loads the data
+    def test_get_user_by_id_loads_data(self):
+        """
+        picking a user with data
+        """
+        response = self.test.get('/api/v1/users/1')
+        res_data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        expected_output = [{"userid":1, "username":"Josean", "password":"password", "role":"Admin"}]
         self.assertEqual(res_data, expected_output)
