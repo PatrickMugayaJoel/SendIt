@@ -57,8 +57,8 @@ def deliveryOrderspost():
     """
     data = request.get_json()
     if data:
-        user = [item["userid"] for item in users if item["userid"] == data["userid"]]
-        if user[0]:
+        user = next((item["userid"] for item in users if item["userid"] == data["userid"]), None)
+        if user:
             #generate an id
             data['orderID'] = create_id(parcelorders)
             # appends the delivery orders object to list
