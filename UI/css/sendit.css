@@ -19,7 +19,7 @@ display: block;
 
 .sendit_form input[type=submit]{
 margin-left: 47%;
-width: 52.6%;
+width: 53.6%;
 }
 
 .sendit_form input{
@@ -39,8 +39,8 @@ padding: 20px;
 margin-top: -5px;
 }
 
-.sendit_form #formfooter{
-margin-bottom: -15px;
+.sendit_form .formfooter{
+margin-bottom: -18px;
 text-align: center;
 }
 
@@ -54,7 +54,15 @@ text-align: center;
 
 #order_status_update{
 	margin: auto;
+	text-align: left;
+	width: 80%;
 }
+
+#order_status_update input[type=submit]{
+	margin-left: 2%;
+    width: 53.5%;
+    padding: 9px 10px;
+	}
 
 .search_form{
 	width: 100%;
@@ -66,6 +74,12 @@ text-align: center;
 
 .search_form input{
 	width: 90%;
+padding: 10px;
+margin: 10px;
+}
+
+.admin .search_form input{
+	width: 25%;
 padding: 10px;
 margin: 10px;
 }
@@ -84,7 +98,6 @@ margin: 10px;
 }
 
 .profile_row{
-	height: 300px;
 	margin-top: 10px;
 }
 
@@ -154,6 +167,7 @@ padding-right: 10px;
 
 #summary_info_table{
  padding: 0px 50px;
+ text-align: left;
 }
 
 .bg_colour{
@@ -162,7 +176,8 @@ padding-right: 10px;
 
 #summary_info_table td,#summary_info_table th {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	width: 10%;
 }
 
 #profile_info_table th{
@@ -181,6 +196,7 @@ padding-right: 10px;
 
 .tablerow{
 	padding: 20px 0px 20px 0px;
+	overflow: auto;
 }
 
 .tablerow div{
@@ -213,7 +229,7 @@ th, td {
 
 
 #Admin_pg{
-	height: 500px;
+	text-align: center;
 }
 
 #admin_list{
@@ -240,7 +256,7 @@ height: inherit;
 #cancelOD a:link, #cancelOD a:visited {
     background-color: #f44336;
     color: white;
-    padding: 14px 25px;
+    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -250,25 +266,17 @@ height: inherit;
     background-color: red;
 }
 
-#cancelCD a:link, #cancelCD a:visited {
-    background-color: #365af4;
-    color: white;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-
-#cancelCD a:hover, #cancelCD a:active {
-    background-color: blue;
-}
-
-#cancels{
-border: none;
-}
-
-#cancelOD, #cancelCD{
+#cancelOD a{
 	width: 40%;
+}
+
+#Admintag{
+	text-align: center;
+}
+
+#create_order_form{
+	width: 100%;
+	margin-top: 30px;
 }
 
 @media only screen and (max-width: 1101px){
