@@ -27,7 +27,15 @@ li a:hover:not(.active) {
 }
 
 ul #template_logo{
-	margin: 10px 16px;
+    margin-top: 0px;
+}
+
+#template_logo img{
+    height: 30px;
+}
+
+#template_logo a{
+    padding: 10px 10px 10px 20px;
 }
 
 #ui_one{
@@ -51,4 +59,12 @@ li h2 {
 
 body{
 	margin: 0px 5% 0px 5%;
+}
+
+@media only screen and (max-width: 1101px){
+
+        #ui_two, #ui_one{
+    width: 100%;
+      }
+    
 }
