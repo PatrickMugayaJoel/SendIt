@@ -308,3 +308,31 @@ height: inherit;
 }
 
 }
+
+@media only screen and (max-width: 1101px){
+	
+	.sendit_form input[type=submit]{
+		margin-left: 0px;
+		float: left;
+         width: 52.6%;
+     }
+
+     .sendit_form #formfooter {
+    display: inline-block;
+
+       }
+
+       .row {
+    white-space: unset;
+        }
+
+      li {
+    float: initial;
+     }
+
+.column10, .column20, .column30, .column40, .column50, .column60, .column70, .column80, .column90{
+	width: 100%;
+	overflow: hidden;
+}
+
+}
