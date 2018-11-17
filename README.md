@@ -1,4 +1,4 @@
-# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=ft-get_all_delivery_orders-161806741)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg?branch=ft-get_all_delivery_orders-161806741)](https://coveralls.io/github/PatrickMugayaJoel/SendIt?branch=ft-get_all_delivery_orders-161806741) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
+# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=ch-conforming_to_pylint_style-161861106)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg?branch=ch-conforming_to_pylint_style-161861106)](https://coveralls.io/github/PatrickMugayaJoel/SendIt?branch=ch-conforming_to_pylint_style-161861106) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
 
 SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.
     
@@ -29,6 +29,14 @@ For installation of this project:  `$ https://github.com/PatrickMugayaJoel/SendI
 
 * HTML
 * CSS
+ 
+# Installing
+
+* Clone this: https://github.com/PatrickMugayaJoel/SendIt.git
+* Install python
+* Setup a virtual enviroment and activate it
+* Install flask
+* run the 'run.py' file in the root directory.
 
 ## Run the app
 

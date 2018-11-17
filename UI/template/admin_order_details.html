@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="icon" href="../images/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="../css/sendit.css" >
+  <link rel="stylesheet" type="text/css" href="../css/nav.css" >
+  <script src="../js/sendit.js" language="javascript" type="text/javascript"></script>
+  <title>SendIt : Profile</title>
+</head>
+<body>
+
+<div class="row">
+<ul id="ui_one">
+  <li><img id="template_logo" src="../images/logo_w.png"></li>
+  <li><a href="./manage_parcels.html">Parcels</a></li>
+  <li><a class="active" href="./admin_order_details.html">Order Details</a></li>
+</ul>
+<ul id="ui_two">
+  <li><h2> Hi Joel, </h2></li>
+  <li><a href="./login.html">Logout</a></li>
+</ul>
+</div>
+
+
+<div class="row">
+  <div id="Admintag"><h3>Logged is as an Administrator.</h3></div>
+  </div>  
+
+<div class="row" id="Admin_pg">
+
+      <div class="profile_info_space column50 bg_colour">
+      <table id="summary_info_table">
+        <tr>
+          <th colspan="2">Delivery Order details</th>
+        </tr>
+        <tr>
+          <td>Order ID</td>
+          <td>34568</td>
+        </tr>
+        <tr>
+          <td>Pick Up Location</td>
+          <td>mosko</td>
+        </tr>
+        <tr>
+          <td>Destination</td>
+          <td>Kiganda</td>
+        </tr>
+        <tr>
+          <td>Previous Check Point</td>
+          <td>Mosko</td>
+        </tr>
+        <tr>
+          <td>Next Check Point</td>
+          <td>Mwanza</td>
+        </tr>
+        <tr>
+          <td>Parcel Size</td>
+          <td>10kgs, 30x25x30cm</td>
+        </tr>
+        <tr>
+         <td>Delivery Cost</td>
+         <td>Shs 120,000</td>
+       </tr>
+       <tr>
+        <td>Status</td>
+        <td>In transit</td>
+      </tr>
+        <tr>
+          <td>Arrival date estimate</td>
+          <td>01-01-2020</td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+
+  </div>
+
+  <div id="admin_form" class="column50">
+  <div class="sendit_form bg_colour" >
+<form action="#" id="order_status_update" method="Post">
+  <h3 id="formheading">Update Delivery Order Details</h3>
+  <div class="inputfield">
+     <label for="order_id">Order ID</label>
+     <input id="order_id" disabled="true" type="text" name="order_id" value="23467">
+  </div>
+  <div class="inputfield">
+     <label for="p_location">Pickup Location</label>
+     <input id="p_location" disabled="true" type="text" name="p_location" value="Mukyalo">
+  </div>
+  <div class="inputfield">
+     <label for="destination">Destination</label>
+     <input id="destination" disabled="true" type="text" name="destination" value="mosko">
+  </div>
+  <div class="inputfield">
+     <label for="p_checkp">Previous Check Point</label>
+     <input id="p_checkp" type="text" name="p_checkp" value="Mwanza">
+  </div>
+  <div class="inputfield">
+     <label for="n_checkp">Next Check Point</label>
+     <input id="n_checkp" type="text" name="n_checkp" value="Kiganda">
+  </div>
+  <div class="inputfield">
+     <label for="parcel_size">Parcel Size</label>
+     <input id="parcel_size" type="text" name="parcel_size" value="10kgs, 30x25x30cm">
+  </div>
+  <div class="inputfield">
+     <label for="delivery_cost">Delivery Cost</label>
+     <input id="delivery_cost" type="text" name="delivery_cost" value="Shs 23,000">
+  </div>
+  <div class="inputfield">
+     <label for="status">Status</label>
+     <input id="status" type="text" name="status" value="Transit">
+  </div>
+  <div class="inputfield">
+     <label for="delivery_date">Expected Delivery Date</label>
+     <input id="delivery_date" type="text" name="delivery_date" value="01-01-2020">
+  </div>
+  <div class="inputfield">
+     <label for="update"></label>
+     <input id="update" type="submit" value="Update " name="update">
+  </div>
+</form>
+</div>
+</div>
+
+ </div>
+
+</body>
+</html>
