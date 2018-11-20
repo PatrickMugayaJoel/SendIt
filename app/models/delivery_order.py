@@ -10,7 +10,7 @@ class DeliveryOrder:
     def add(self, parcelorders):
         """ adding a parcel delivery order """
 
-        schema = {'orderID': {'type': 'integer'}, 'destination': {'type': 'string'},
+        schema = {'destination': {'type': 'string'},
                     'pickupLocation': {'type': 'string'}, 'parcelSize': {'type': 'string'},
                      'price': {'type': 'string'}, 'status': {'type': 'string'},
                       'userid': {'type': 'integer'}, 'date': {'type': 'string'}}
@@ -19,7 +19,6 @@ class DeliveryOrder:
         v.allow_unknown = True
 
         if v.validate(parcelorders, schema):
-            self.orderID = parcelorders['orderID']
             self.destination = parcelorders['destination']
             self.pickupLocation = parcelorders['pickupLocation']
             self.parcelSize = parcelorders['parcelSize']
