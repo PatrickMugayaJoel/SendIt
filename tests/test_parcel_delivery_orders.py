@@ -12,10 +12,10 @@ class test_parcel_orders(unittest.TestCase):
     def setUp(self):
         """set up params"""
         self.test = app.test_client()
-        self.parcel = { "date": "date", "destination": "destination", "orderID": 1, "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
-        self.user = {"userid":1, "name":"admin", "username":"test2", "password":"admin", "role":"Admin"}
+        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
+        self.user = {"userid":1, "name":"admin", "username":"test2", "password":"admin"}
         self.test.get('/users/cancel')
-        self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
+        self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         response = self.test.post('/api/v1/login', data=json.dumps({"username":"test2", "password":"admin"}), content_type='application/json')
         data = json.loads(response.data)
         token = data.get('access_token')
@@ -47,7 +47,7 @@ class test_parcel_orders(unittest.TestCase):
     #test posting an empty user
     def test_post_empty_user(self):
         """user page with empty list"""
-        response = self.test.post('/api/v1/users', headers=self.headers)
+        response = self.test.post('/api/v1/signup', headers=self.headers)
         self.assertEqual(response.status_code, 400)
 
     #test get parcel by id
@@ -72,9 +72,9 @@ class test_parcel_orders(unittest.TestCase):
     def test_post_data_parcels(self):
         """posting parcel data"""
         self.user["username"] = "test4"
-        self.test.post("/api/v1/users", headers=self.headers, data=json.dumps(self.user))
+        self.test.post("/api/v1/signup", headers=self.headers, data=json.dumps(self.user))
         res = self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
-        #self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 201)
         res_data = json.loads(res.data)
         self.assertEqual(res_data, self.parcel)
 
@@ -82,8 +82,8 @@ class test_parcel_orders(unittest.TestCase):
     def test_post_data_users(self):
         """posting user data"""
         self.user["username"] = "test3"
-        res = self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
-        #self.assertEqual(res.status_code, 201)
+        res = self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
+        self.assertEqual(res.status_code, 201)
         self.assertTrue(b'username' in res.data)
 
     #test cancel parcel

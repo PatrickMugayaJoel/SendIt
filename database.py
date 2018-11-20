@@ -11,17 +11,13 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        if os.getenv('SETDB') == 'set_test_db':
-            self.database = "sendit_test_db"
-        else:
-            self.database = "d5fecfgnpfmlqi"
-        pprint(self.database)
+        self.database = "sendit_test_db"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com", 
+            self.conn = psycopg2.connect(host="localhost", 
                                             database=self.database, 
-                                            user="ynfddvrqapwhki", 
-                                            password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
+                                            user="postgres", 
+                                            password="joel",
                                             port="5432")
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -63,7 +59,7 @@ class DatabaseConnection:
                 name VARCHAR(50) NOT NULL,
                 username VARCHAR(12) NOT NULL UNIQUE, 
                 password VARCHAR(12) NOT NULL, 
-                role VARCHAR(15) NOT NULL,
+                role VARCHAR(50) DEFAULT 'user',
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 active BOOLEAN DEFAULT TRUE);
@@ -115,20 +111,9 @@ class DatabaseConnection:
             self.cur.execute(
                 "SELECT * FROM parcels WHERE userid = %s", [_userid]
             )
-            _parcels = self.cur.fetchone()
+            _parcels = self.cur.fetchall()
             return _parcels
 
-        except:
-            return False
-
-    def updateparcelstatus(self, _orderID, _status):
-        """delete one parcel"""
-        try:
-            self.cur.execute(
-                "UPDATE parcels SET status={} , updated_on =CURRENT_TIMESTAMP\
-                 WHERE orderID = {}".format(_status, _orderID
-                )
-            )
         except:
             return False
 
@@ -143,29 +128,40 @@ class DatabaseConnection:
         except:
             return False
 
-    def update_parcel(self, destination, pickupLocation, parcelSize,
-                       price, status, userid, orderID):
+    def update_parcel(self, myorder):
         """update parcel data"""
         try:
             self.cur.execute(
                 "UPDATE parcels SET destination='{}', pickupLocation={}, parcelSize = '{}',\
-                 price = '{}', status = '{}', userid = '{}',\
-                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(destination,\
-                   pickupLocation, parcelSize, price, status, userid, orderID)
+                 price = '{}', status = '{}',\
+                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
+                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, myorder.orderID)
             )
 
         except:
             return False
-    
+
     def add_user(self, user):
         """add users"""
 
         try:
             self.cur.execute(
                 """
-                INSERT INTO users(name, username, password, role) \
-                VALUES('{}', '{}', '{}', '{}')
-                """.format(user.name, user.username, user.password, user.role)
+                INSERT INTO users(name, username, password) \
+                VALUES('{}', '{}', '{}')
+                """.format(user.name, user.username, user.password)
+            )
+            return True
+        
+        except Exception as ex:
+            return format(ex)
+
+    def update_user(self, user):
+        """update users"""
+
+        try:
+            self.cur.execute(
+                """UPDATE users set name='{}', username='{}', password='{}', role='{}' WHERE userid = '{}'""".format(user['name'], user['username'], user['password'], user['role'], user['userid'])
             )
             return True
         
@@ -179,12 +175,13 @@ class DatabaseConnection:
             self.cur.execute(
                 """
                 INSERT INTO users(name, username, password, role)\
-                VALUES('admin', 'admin', 'admin', 'admin');
+                VALUES('john', 'hero', 'admin', 'user'),('admin', 'admin', 'admin', 'admin');
                 """
             )
+            return {"msg":"*** Created default user ***"}
         
-        except:
-            return False
+        except Exception as ex:
+            return {"msg":format(ex)}
 
     def getUsers(self):
         """get all users"""

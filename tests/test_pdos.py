@@ -14,9 +14,9 @@ class test_parcel_orders(unittest.TestCase):
         self.test = app.test_client()
         self.test.get('/parcels/cancel')
         self.test.get('/users/cancel')
-        self.parcel = { "date": "date", "destination": "destination", "orderID": 1, "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
-        self.user = {"userid":1, "name":"admin", "username":"test", "password":"admin", "role":"Admin"}
-        self.test.post("/api/v1/users", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
+        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
+        self.user = {"userid":1, "name":"admin", "username":"test", "password":"admin"}
+        self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         response = self.test.post('/api/v1/login', data=json.dumps({"username":"test", "password":"admin"}), content_type='application/json')
         data = json.loads(response.data)
         token = data.get('access_token')
