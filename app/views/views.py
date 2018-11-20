@@ -2,6 +2,7 @@
 
 from app import app
 from app.models.user import User
+from flasgger import swag_from
 from app.models.delivery_order import DeliveryOrder
 from app.utils.serialize import serialize
 import datetime
@@ -44,11 +45,11 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
 
     access_token = create_access_token(identity=credentials['userid'])
-    return jsonify(access_token=access_token), 200
+    return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
 
 #get all delivery orders
 @app.route('/api/v1/parcels', methods=['GET'])
-#@jwt_required
+@jwt_required
 def deliveryOrders():
     """ get parcels route """
     myparcelorders = database.getparcels()
@@ -58,7 +59,7 @@ def deliveryOrders():
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
-#@jwt_required
+@jwt_required
 def deliveryOrderspost():
     """ post parcels route """
     data = request.get_json()
@@ -79,7 +80,7 @@ def deliveryOrderspost():
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-#@jwt_required
+@jwt_required
 def delivery_Order(orderID):
     """ selecting a parcel by id """
     parcel = database.getoneparcel(orderID)
@@ -89,7 +90,7 @@ def delivery_Order(orderID):
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
-#@jwt_required
+@jwt_required
 def parcelOrders(userID):
     """ selscting parcel by userid """
     userparcel = database.getparcelsbyuser(userID)
@@ -99,7 +100,7 @@ def parcelOrders(userID):
 
 #Cancel a parcel delivery order
 @app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
-#@jwt_required
+@jwt_required
 def parcelOrder(orderID):
     """ canceling a parcel """
     parcel = database.getoneparcel(orderID)
@@ -109,7 +110,8 @@ def parcelOrder(orderID):
     return 'Sorry parcel order id: %d not found!'%orderID, 400
 
 #post. create a user
-@app.route('/api/v1/users', methods=['POST'])
+@app.route('/api/v1/signup', methods=['POST'])
+@swag_from('../docs/view/signup.yaml')
 def createuserpost():
     """ post. create users route """
     data = request.get_json()
@@ -133,7 +135,7 @@ def createuserpost():
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
-#@jwt_required
+@jwt_required
 def getusers():
     """ get users route """
     listusers = database.getUsers()
@@ -143,7 +145,7 @@ def getusers():
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
-#@jwt_required
+@jwt_required
 def getuser_byid(userid):
     """ get a user by id """
     user = database.getoneUser(userid)
