@@ -22,5 +22,6 @@ class User:
             self.name = user['name'].strip()
             self.username = user['username'].strip()
             self.password = user['password'].strip()
+            self.role = 'user'
             return(True)
         return(v.errors)
