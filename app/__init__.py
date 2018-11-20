@@ -7,6 +7,7 @@ swagger = Swagger(app)
 
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = 'joelsecret'
+
 jwt = JWTManager(app)
 
 from app.views import views
