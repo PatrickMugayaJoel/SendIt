@@ -1,182 +1,169 @@
-"""
-routes file
-"""
+""" routes file """
 
 from app import app
 from app.models.user import User
 from app.models.delivery_order import DeliveryOrder
 from app.utils.serialize import serialize
+import datetime
+from pprint import pprint
+from database import DatabaseConnection
 from flask import jsonify, request
 from app.utils.controllers import create_id
 from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity )
-parcelorders = []
-users = []
+
+database = DatabaseConnection()
+database.drop_tables()
+database.create_tables()
+database.default_user()
 
 myuser = User()
-myuser.add({"userid":1, "name":"admin", "username":"admin", "password":"admin", "role":"Admin"})
-users.append(serialize(myuser))
+if not myuser.add(database.getoneUser(1)):
+    pprint('****ERROR**** default user not validated')
 
 #index route
 @app.route('/')
 def home():
-    """
-    home route
-    """
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    """ home route """
+    #current_user = get_jwt_identity()
+    #return jsonify(logged_in_as=current_user), 200
+    return jsonify('users'), 200
 
 #Login route
 @app.route('/api/v1/login', methods=['POST'])
 def login():
-    """
-    login route
-    """
+    """login route"""
     if not request.is_json:
         return jsonify({"msg": "Missing JSON data"}), 400
 
     username = request.json.get('username', None)
     password = request.json.get('password', None)
 
-    credentials = list(filter(lambda user: user['username'] == username and user['password'] == password, users))
+    credentials = database.check_user_exists(username.strip(), password.strip())
     
     if not credentials:
         return jsonify({"msg": "Bad username or password"}), 401
 
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=credentials['userid'])
     return jsonify(access_token=access_token), 200
 
 #get all delivery orders
 @app.route('/api/v1/parcels', methods=['GET'])
-@jwt_required
+#@jwt_required
 def deliveryOrders():
-    """
-    get parcels route
-    """
-    if parcelorders:
-        return jsonify(parcelorders), 200
-    return jsonify({"message":"There are no orders to display"}), 400
+    """ get parcels route """
+    myparcelorders = database.getparcels()
+    if myparcelorders:
+        return jsonify(myparcelorders), 200
+    return jsonify({"message":"There are no orders to display or DB error"}), 400
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
-@jwt_required
+#@jwt_required
 def deliveryOrderspost():
-    """
-    post parcels route
-    """
+    """ post parcels route """
     data = request.get_json()
     if data:
-        user = next((item["userid"] for item in users if item["userid"] == data["userid"]), None)
-        if user:
-            #generate an id
-            data['orderID'] = create_id(parcelorders)
+        if not database.getoneUser(data["userid"]) == 0:
 
             newparcel = DeliveryOrder()
-            if not newparcel.add(data):
-                return jsonify({"message":"Invalid data"}), 400
+            result = newparcel.add(data)
+            if not result == True:
+                return jsonify(result), 400
             newparcel = serialize(newparcel)
 
-            # appends the delivery orders object to list
-            parcelorders.append(newparcel)
+            if not database.insert_data_parcels(newparcel)==True:
+                return('database insertion error'),4000
+
             return jsonify(newparcel), 201
     return jsonify({"message":"User id was not found or No data was posted"}), 400
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-@jwt_required
+#@jwt_required
 def delivery_Order(orderID):
-    """
-    selecting a parcel by id
-    """
-    parcel = [item for item in parcelorders if item["orderID"] == orderID]
+    """ selecting a parcel by id """
+    parcel = database.getoneparcel(orderID)
     if parcel:
         return jsonify(parcel), 200
     return 'Sorry parcel with id: %d not found!'%orderID, 400
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
-@jwt_required
+#@jwt_required
 def parcelOrders(userID):
-    """
-    selscting parcel by userid
-    """
-    userparcel = list(filter(lambda parcel: parcel['userid'] == userID, parcelorders))
+    """ selscting parcel by userid """
+    userparcel = database.getparcelsbyuser(userID)
     if userparcel:
         return jsonify(userparcel), 200
     return 'Sorry user with id: %d not found!'%userID, 400
 
 #Cancel a parcel delivery order
 @app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
-@jwt_required
+#@jwt_required
 def parcelOrder(orderID):
-    """
-    canceling a parcel
-    """
-    if parcelorders:
-        parcel = [item for item in parcelorders if item["orderID"] == orderID]
-        if parcel:
-            parcel = parcel[0]
-            parcel['status'] = 'Cancelled'
-            return jsonify(parcel), 200
+    """ canceling a parcel """
+    parcel = database.getoneparcel(orderID)
+    if parcel:
+        parcel['status'] = 'Cancelled'
+        return jsonify(parcel), 200
     return 'Sorry parcel order id: %d not found!'%orderID, 400
 
 #post. create a user
 @app.route('/api/v1/users', methods=['POST'])
 def createuserpost():
-    """
-    post. create users route
-    """
+    """ post. create users route """
     data = request.get_json()
     if data:
-        #generate an id
-        data['userid'] = create_id(users)
 
         newuser = User()
-        if not newuser.add(data):
-            return jsonify({"message":"Invalid data"}), 400
-        newuser = serialize(newuser)
+        thisuser = newuser.add(data)
+        if not thisuser == True:
+            return jsonify(thisuser), 401
+        
+        result = database.add_user(newuser)
+        if not result == True:
+            return jsonify(result), 402
 
-        # appends user object to list
-        users.append(newuser)
-        return jsonify(data), 201
-    return jsonify({"message":"No data was posted"}), 400
+        thisuser = database.getUserbyUsername(data['username'])
+        if not thisuser["userid"]:
+            return thisuser["msg"]
+
+        return jsonify(thisuser), 201
+    return jsonify({"message":"No data was posted"}), 403
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
 #@jwt_required
 def getusers():
-    """
-    get users route
-    """
-    if users:
-        return jsonify(users), 200
+    """ get users route """
+    listusers = database.getUsers()
+    if listusers:
+        return jsonify(listusers), 200
     return jsonify({"message":"There are no users to display"}), 400
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
-@jwt_required
+#@jwt_required
 def getuser_byid(userid):
-    """
-    get a user by id
-    """
-    user = [item for item in users if item["userid"] == userid]
-    if user:
-        return jsonify(user), 200
-    return 'Sorry user with id: %d not found!'%userid, 400
+    """ get a user by id """
+    user = database.getoneUser(userid)
+    try:
+        if user['userid']:
+            return jsonify(user), 200
+        return user['msg'], 400
+    except:
+            return jsonify({"msg":"User does not exist"}), 400
 
 #Clear all parcels
 @app.route('/parcels/cancel', methods=['GET'])
 def cancelparcels():
-    """
-    canceling all parcels
-    """
-    del parcelorders[:]
-    return 'No result',204
+    """ canceling all parcels """
+    return database.truncate('parcels')
+    #return 'No result',204
 
 #Clear all users
 @app.route('/users/cancel', methods=['GET'])
 def cancelusers():
-    """
-    canceling all users
-    """
-    del users[:]
-    return 'No result',204
+    """ canceling all users """
+    return database.truncate('users')
+    #return 'No result',204
