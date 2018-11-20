@@ -59,7 +59,7 @@ class DatabaseConnection:
                 name VARCHAR(50) NOT NULL,
                 username VARCHAR(12) NOT NULL UNIQUE, 
                 password VARCHAR(12) NOT NULL, 
-                role VARCHAR(15) DEFAULT 'user',
+                role VARCHAR(50) DEFAULT 'user',
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 active BOOLEAN DEFAULT TRUE);
@@ -111,20 +111,9 @@ class DatabaseConnection:
             self.cur.execute(
                 "SELECT * FROM parcels WHERE userid = %s", [_userid]
             )
-            _parcels = self.cur.fetchone()
+            _parcels = self.cur.fetchall()
             return _parcels
 
-        except:
-            return False
-
-    def updateparcelstatus(self, _orderID, _status):
-        """delete one parcel"""
-        try:
-            self.cur.execute(
-                "UPDATE parcels SET status={} , updated_on =CURRENT_TIMESTAMP\
-                 WHERE orderID = {}".format(_status, _orderID
-                )
-            )
         except:
             return False
 
@@ -139,20 +128,19 @@ class DatabaseConnection:
         except:
             return False
 
-    def update_parcel(self, destination, pickupLocation, parcelSize,
-                       price, status, userid, orderID):
+    def update_parcel(self, myorder):
         """update parcel data"""
         try:
             self.cur.execute(
                 "UPDATE parcels SET destination='{}', pickupLocation={}, parcelSize = '{}',\
-                 price = '{}', status = '{}', userid = '{}',\
-                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(destination,\
-                   pickupLocation, parcelSize, price, status, userid, orderID)
+                 price = '{}', status = '{}',\
+                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
+                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, myorder.orderID)
             )
 
         except:
             return False
-    
+
     def add_user(self, user):
         """add users"""
 
@@ -168,14 +156,26 @@ class DatabaseConnection:
         except Exception as ex:
             return format(ex)
 
+    def update_user(self, user):
+        """update users"""
+
+        try:
+            self.cur.execute(
+                """UPDATE users set name='{}', username='{}', password='{}', role='{}' WHERE userid = '{}'""".format(user['name'], user['username'], user['password'], user['role'], user['userid'])
+            )
+            return True
+        
+        except Exception as ex:
+            return format(ex)
+
     def default_user(self):
         """insert a default user"""
 
         try:
             self.cur.execute(
                 """
-                INSERT INTO users(name, username, password)\
-                VALUES('admin', 'admin', 'admin');
+                INSERT INTO users(name, username, password, role)\
+                VALUES('john', 'hero', 'admin', 'user'),('admin', 'admin', 'admin', 'admin');
                 """
             )
             return {"msg":"*** Created default user ***"}
