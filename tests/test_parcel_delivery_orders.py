@@ -16,7 +16,7 @@ class test_parcel_orders(unittest.TestCase):
         self.user = {"userid":1, "name":"admin", "username":"test2", "password":"admin"}
         self.test.get('/users/cancel')
         self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
-        response = self.test.post('/api/v1/login', data=json.dumps({"username":"test2", "password":"admin"}), content_type='application/json')
+        response = self.test.post('/api/v1/login', data=json.dumps({"username":"admin", "password":"admin"}), content_type='application/json')
         data = json.loads(response.data)
         token = data.get('access_token')
         self.headers = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
@@ -57,15 +57,17 @@ class test_parcel_orders(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     #test get user by id
-    def test_get_user_by_id(self):
-        """get a user by id"""
-        response = self.test.get('/api/v1/users/3', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+    # def test_get_user_by_id(self):
+    #     """get a user by id"""
+    #     response = self.test.get('/api/v1/users/3', headers=self.headers)
+    #     self.assertEqual(response.data, self.user)
+    #     self.assertEqual(response.status_code, 400)
 
     #test get parcel by userid
     def test_get_parcel_by_userid(self):
         """get parcels by user id"""
         response = self.test.get('/api/v1/users/4/parcels', headers=self.headers)
+        self.assertTrue(b'username' in response.data)
         self.assertEqual(response.status_code, 400)
 
     #test posting with parcel data
@@ -75,8 +77,7 @@ class test_parcel_orders(unittest.TestCase):
         self.test.post("/api/v1/signup", headers=self.headers, data=json.dumps(self.user))
         res = self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
         self.assertEqual(res.status_code, 201)
-        res_data = json.loads(res.data)
-        self.assertEqual(res_data, self.parcel)
+        self.assertTrue(b'status' in res.data)
 
     #test posting user data
     def test_post_data_users(self):
@@ -90,4 +91,5 @@ class test_parcel_orders(unittest.TestCase):
     def test_cancel_parcel(self):
         """cancel a parcel"""
         response = self.test.put('/api/v1/parcels/3/cancel', headers=self.headers)
+        self.assertEqual(response.data, self.user)
         self.assertEqual(response.status_code, 400)

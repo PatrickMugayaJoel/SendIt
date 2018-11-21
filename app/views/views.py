@@ -149,14 +149,14 @@ def createuserpost():
         
         result = database.add_user(newuser)
         if not result == True:
-            return jsonify(result), 402
+            return jsonify(result), 400
 
         thisuser = database.getUserbyUsername(data['username'])
         if not thisuser["userid"]:
             return thisuser["msg"]
 
         return jsonify(thisuser), 201
-    return jsonify({"message":"No data was posted"}), 403
+    return jsonify({"message":"No data was posted"}), 400
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
