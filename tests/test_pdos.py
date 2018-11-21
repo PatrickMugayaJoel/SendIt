@@ -71,22 +71,20 @@ class test_parcel_orders(unittest.TestCase):
         self.assertTrue(b'status' in response.data)
 
     #test get parcels route by userid loads the data
-    # def test_get_parcel_by_userid_loads_data(self):
-    #     """picking parcels with userid"""
-    #     response = self.test.get('/api/v1/users/3/parcels', headers=self.headers)
-    #     self.assertEqual(response.data, 200)
-    #     self.assertTrue(b'status' in response.data)
+    def test_get_parcel_by_userid_loads_data(self):
+        """picking parcels with userid"""
+        response = self.test.get('/api/v1/users/2/parcels', headers=self.headers)
+        self.assertTrue(b'status' in response.data)
 
     #test get users route loads the data
     def test_get_users_loads_data(self):
         """test loading users data"""
         response = self.test.get('/api/v1/users', headers=self.headers)
-        self.assertEqual(response.status_code, 200)
         self.assertTrue(b'username' in response.data)
 
     # #test get users route by id loads the data
     def test_get_user_by_id_loads_data(self):
         """picking a user with data"""
         response = self.test.get('/api/v1/users/1', headers=self.headers)
-        #self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(b'username' in response.data)

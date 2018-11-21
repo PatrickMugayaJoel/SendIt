@@ -62,11 +62,11 @@ class test_parcel_orders(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     #test get user by id
-    # def test_get_user_by_id(self):
-    #     """get a user by id"""
-    #     response = self.test.get('/api/v1/users/3', headers=self.headers)
-    #     self.assertEqual(response.data, self.user)
-    #     self.assertEqual(response.status_code, 400)
+    def test_get_user_by_id(self):
+        """get a user by id"""
+        response = self.test.get('/api/v1/users/1', headers=self.headers)
+        self.assertTrue(b'username' in response.data)
+        self.assertEqual(response.status_code, 200)
 
     #test get parcel by userid
     def test_get_parcel_by_userid(self):
