@@ -4,13 +4,13 @@ python:
   - "3.6.5"
   
 before_install:
+  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
   - pip install -U pip
   - pip install -U tox coverage coveralls
   - pip install -r requirements.txt
-  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
 
 script:
-  - nosetests --with-cov --cov tests/
+  - nosetests --with-cov --cov tests
   
 after_success:
   - codecov
