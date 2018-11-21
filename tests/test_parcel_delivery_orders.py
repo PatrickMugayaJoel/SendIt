@@ -1,7 +1,7 @@
 
 """ test_parcel_delivery_orders.py File to test parcel order endpoints"""
 import sys
-sys.path.append('../')
+sys.path.append('../.')
 import unittest
 import json
 from app import app

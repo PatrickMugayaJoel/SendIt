@@ -1,7 +1,7 @@
 
 """test_pdos.py File to test parcel order endpoints"""
 import sys
-sys.path.append('../')
+sys.path.append('../.')
 from app import app
 import unittest
 import json
