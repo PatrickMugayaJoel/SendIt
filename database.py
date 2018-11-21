@@ -14,9 +14,10 @@ class DatabaseConnection:
         self.database = "d5fecfgnpfmlqi"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com", 
-                                            database=self.database, 
-                                            user="ynfddvrqapwhki", 
+            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com",
+                                            database=self.database,
+                                            user="ynfddvrqapwhki",
+                                            sslmode='require',
                                             password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
                                             port="5432")
                                         
