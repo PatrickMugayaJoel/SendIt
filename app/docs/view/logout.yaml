@@ -1,0 +1,17 @@
+Logout.
+---
+tags:
+  - User 
+  - Logout.
+
+parameters:
+  - in: body
+    name: body
+    required: false
+    type: string
+    description: This route is used to log a user out. 
+responses:
+  200:
+    description: User logged out successfully.
+  400:
+    description: Error logging out
