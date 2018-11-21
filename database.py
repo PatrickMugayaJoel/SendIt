@@ -181,7 +181,7 @@ class DatabaseConnection:
             return {"msg":"*** Created default user ***"}
         
         except Exception as ex:
-            return {"msg":format(ex)}
+            return {"defusr":format(ex)}
 
     def getUsers(self):
         """get all users"""
@@ -218,7 +218,7 @@ class DatabaseConnection:
             return _users
 
         except Exception as ex:
-            return {"msg":format(ex), "userid":0}
+            return {"gt1usr":format(ex), "userid":0}
 
     def getUserbyUsername(self, _username):
         """get a user"""
@@ -231,7 +231,7 @@ class DatabaseConnection:
             return _users
 
         except Exception as ex:
-            return {'msg':format(ex), 'userid':0}
+            return {'gtsurbyUsrnm':format(ex), 'userid':0}
 
     def deleteuser(self, _userid):
         """delete user"""

@@ -36,7 +36,7 @@ def home():
 def login():
     """login route"""
     if not request.is_json:
-        return jsonify({"msg": "Missing JSON data"}), 400
+        return jsonify({"login2": "Missing JSON data"}), 400
 
     username = request.json.get('username', None)
     password = request.json.get('password', None)
@@ -44,7 +44,7 @@ def login():
     credentials = database.check_user_exists(username.strip(), password.strip())
     
     if not credentials:
-        return jsonify({"msg": "Wrong username or password"}), 401
+        return jsonify({"login3": "Wrong username or password"}), 401
 
     access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']})
     return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
@@ -134,7 +134,7 @@ def parcelOrder(orderID):
         return jsonify(parcel), 200
     return 'Sorry parcel order id: %d not found!'%orderID, 400
 
-#post. create a user
+#post. Signup a user
 @app.route('/api/v1/signup', methods=['POST'])
 @swag_from('../docs/view/signup.yaml')
 def createuserpost():
@@ -189,7 +189,7 @@ def getuser_byid(userid):
             return jsonify(user), 200
         return user['msg'], 400
     except:
-            return jsonify({"msg":"User does not exist"}), 400
+            return jsonify({"usrbyid":"User does not exist"}), 400
 
 #Promote user
 @app.route('/api/v1/users/<int:userid>/promote', methods=['PUT'])
@@ -209,7 +209,7 @@ def promote(userid):
             return jsonify(user), 200
         return user['msg'], 400
     except:
-            return jsonify({"msg":"User does not exist"}), 400
+            return jsonify({"gtuserbyid":"User does not exist"}), 400
 
 """Logout"""
 @jwt_required
@@ -217,7 +217,7 @@ def promote(userid):
 def logout():
     """ logout """
     blacklist.add(access_token)
-    return jsonify({"msg": "Successfully logged out"}), 200
+    return jsonify({"login": "Successfully logged out"}), 200
 
 def check_if_token_in_blacklist():
     return access_token in blacklist
