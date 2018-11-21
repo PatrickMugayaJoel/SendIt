@@ -11,12 +11,13 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        self.database = "sendit_test_db"
+        self.database = "d5fecfgnpfmlqi"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com", 
-                                            database=self.database, 
-                                            user="ynfddvrqapwhki", 
+            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com",
+                                            database=self.database,
+                                            user="ynfddvrqapwhki",
+                                            sslmode='require',
                                             password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
                                             port="5432")
                                         
@@ -39,13 +40,13 @@ class DatabaseConnection:
         self.cur.execute(
             """
             CREATE TABLE IF NOT EXISTS parcels (
-                orderID integer PRIMARY KEY,
+                orderID SERIAL PRIMARY KEY,
                 destination VARCHAR(50) NOT NULL,
                 pickupLocation VARCHAR(50) NOT NULL,
                 parcelSize VARCHAR(50) NOT NULL,
                 price integer NOT NULL,
                 status VARCHAR(50) NOT NULL,
-                userid integer NOT NULL,
+                userid SERIAL NOT NULL,
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
             """
@@ -55,7 +56,7 @@ class DatabaseConnection:
         self.cur.execute(
             """
             CREATE TABLE IF NOT EXISTS users (
-                userid integer PRIMARY KEY, 
+                userid SERIAL PRIMARY KEY, 
                 name VARCHAR(50) NOT NULL,
                 username VARCHAR(12) NOT NULL UNIQUE, 
                 password VARCHAR(12) NOT NULL, 
