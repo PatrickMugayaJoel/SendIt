@@ -29,7 +29,7 @@ if not myuser.add(database.getoneUser(1)):
 @app.route('/')
 def home():
     """ home route """
-    return jsonify('wellcome'), 200
+    return jsonify('welcome'), 200
 
 #Login route
 @app.route('/api/v1/login', methods=['POST'])

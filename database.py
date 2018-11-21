@@ -11,7 +11,7 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        self.database = "d5fecfgnpfmlqi"
+        self.database = "sendit_test_db"
 
         try:
             self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com", 
@@ -39,13 +39,13 @@ class DatabaseConnection:
         self.cur.execute(
             """
             CREATE TABLE IF NOT EXISTS parcels (
-                orderID SERIAL PRIMARY KEY,
+                orderID integer PRIMARY KEY,
                 destination VARCHAR(50) NOT NULL,
                 pickupLocation VARCHAR(50) NOT NULL,
                 parcelSize VARCHAR(50) NOT NULL,
                 price integer NOT NULL,
                 status VARCHAR(50) NOT NULL,
-                userid SERIAL NOT NULL,
+                userid integer NOT NULL,
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
             """
@@ -55,7 +55,7 @@ class DatabaseConnection:
         self.cur.execute(
             """
             CREATE TABLE IF NOT EXISTS users (
-                userid SERIAL PRIMARY KEY, 
+                userid integer PRIMARY KEY, 
                 name VARCHAR(50) NOT NULL,
                 username VARCHAR(12) NOT NULL UNIQUE, 
                 password VARCHAR(12) NOT NULL, 
