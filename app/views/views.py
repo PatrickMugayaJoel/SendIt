@@ -28,6 +28,30 @@ def home():
     """ home route """
     return jsonify('welcome'), 200
 
+#post. Signup a user
+@app.route('/api/v1/signup', methods=['POST'])
+@swag_from('../docs/view/signup.yaml')
+def createuserpost():
+    """ post. create users route """
+    data = request.get_json()
+    if data:
+
+        newuser = User()
+        thisuser = newuser.add(data)
+        if not thisuser == True:
+            return jsonify(thisuser), 401
+        
+        result = database.add_user(newuser)
+        if not result == True:
+            return jsonify(result), 400
+
+        thisuser = database.getUserbyUsername(data['username'])
+        if not thisuser["userid"]:
+            return thisuser["msg"]
+
+        return jsonify(thisuser), 201
+    return jsonify({"message":"No data was posted"}), 400
+
 #Login route
 @app.route('/api/v1/login', methods=['POST'])
 def login():
@@ -45,23 +69,6 @@ def login():
 
     access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']}, expires_delta=False)
     return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
-
-#get all delivery orders
-@app.route('/api/v1/parcels', methods=['GET'])
-@jwt_required
-def deliveryOrders():
-    """ get parcels route """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-
-    userdata=get_jwt_identity()
-    if userdata['role'] == 'admin':
-        myparcelorders = database.getparcels()
-    else:
-        myparcelorders = database.getparcelsbyuser(userdata['userid'])
-    if myparcelorders:
-        return jsonify(myparcelorders), 200
-    return jsonify({"message":"There are no orders to display or DB error"}), 400
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
@@ -86,6 +93,23 @@ def deliveryOrderspost():
 
         return jsonify(newparcel), 201
     return jsonify({"message":"User id was not found or No data was posted"}), 400
+
+#get all delivery orders
+@app.route('/api/v1/parcels', methods=['GET'])
+@jwt_required
+def deliveryOrders():
+    """ get parcels route """
+    if check_if_token_in_blacklist():
+        return jsonify("User logged out"), 401
+
+    userdata=get_jwt_identity()
+    if userdata['role'] == 'admin':
+        myparcelorders = database.getparcels()
+    else:
+        myparcelorders = database.getparcelsbyuser(userdata['userid'])
+    if myparcelorders:
+        return jsonify(myparcelorders), 200
+    return jsonify({"message":"There are no orders to display or DB error"}), 400
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
@@ -163,30 +187,6 @@ def updateparcelOrder(orderID):
     if dbresult==True:
         return jsonify({'msg':"Parcel successfuly Updated", "status":"success"}), 200
     return jsonify({'msg':dbresult, "status":"failed"}), 400
-
-#post. Signup a user
-@app.route('/api/v1/signup', methods=['POST'])
-@swag_from('../docs/view/signup.yaml')
-def createuserpost():
-    """ post. create users route """
-    data = request.get_json()
-    if data:
-
-        newuser = User()
-        thisuser = newuser.add(data)
-        if not thisuser == True:
-            return jsonify(thisuser), 401
-        
-        result = database.add_user(newuser)
-        if not result == True:
-            return jsonify(result), 400
-
-        thisuser = database.getUserbyUsername(data['username'])
-        if not thisuser["userid"]:
-            return thisuser["msg"]
-
-        return jsonify(thisuser), 201
-    return jsonify({"message":"No data was posted"}), 400
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
