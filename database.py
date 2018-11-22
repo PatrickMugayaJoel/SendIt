@@ -8,6 +8,7 @@ from pprint import pprint
 import datetime
 from app.__init__ import app
 
+
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
@@ -22,7 +23,7 @@ class DatabaseConnection:
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
-            pprint ('****INFO****: Database connection successfuly created')
+            pprint ('****INFO****: Database connection to '+self.database+' successfuly created')
 
         except psycopg2.DatabaseError as dberror:
             pprint (dberror)
