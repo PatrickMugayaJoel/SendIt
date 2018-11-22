@@ -12,13 +12,13 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        self.database = "d5fecfgnpfmlqi"
+        self.database = "d9fsit8u8si0p2"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com",
+            self.conn = psycopg2.connect(host="ec2-50-19-249-121.compute-1.amazonaws.com",
                                             database=self.database,
-                                            user="ynfddvrqapwhki",
-                                            password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
+                                            user="tzhzehaqthsqlr",
+                                            password="6c87b77ee20e8d9c7b84f962daaace4de1736bebe09481b178032f6bddc24b67",
                                             port="5432")
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -176,7 +176,7 @@ class DatabaseConnection:
             self.cur.execute(
                 """
                 INSERT INTO users(name, username, password, role)\
-                VALUES('admin', 'admin', 'admin', 'admin');
+                VALUES('john', 'hero', 'admin', 'user'),('admin', 'admin', 'admin', 'admin');
                 """
             )
             return {"msg":"*** Created default user ***"}
