@@ -1,0 +1,31 @@
+User Signup.
+---
+tags:
+  - Signup
+  
+parameters:
+  - in: body
+    name: body
+    required: true
+    type: '{"name":"string","password":"string","username":"string"}'
+    description: This route is for Signing a user up. 
+responses:
+  201:
+    description: User added successfuly
+    schema:
+      id: register
+      properties:
+        userid:
+          type: integer
+          default: "1"
+        name:
+          type: string 
+          default: admin
+        username:
+          type: string
+          default: admin
+        password:
+          type: string
+          default: admin
+  400:
+    description: Validation error
