@@ -22,7 +22,7 @@ class test_parcel_orders(unittest.TestCase):
         database.drop_tables()
         database.create_tables()
         database.default_user()
-        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
+        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": 200, "status": "in transit", "userid": 1 }
         self.user = {"name":"admin", "username":"test", "password":"admin"}
         self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         response = self.test.post('/api/v1/login', data=json.dumps({"username":"admin", "password":"admin"}), content_type='application/json')
@@ -73,7 +73,7 @@ class test_parcel_orders(unittest.TestCase):
     #test get parcels route by userid loads the data
     def test_get_parcel_by_userid_loads_data(self):
         """picking parcels with userid"""
-        response = self.test.get('/api/v1/users/1/parcels', headers=self.headers)
+        response = self.test.get('/api/v1/users/2/parcels', headers=self.headers)
         self.assertTrue(b'status' in response.data)
 
     #test get users route loads the data

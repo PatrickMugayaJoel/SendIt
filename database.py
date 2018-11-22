@@ -4,7 +4,6 @@ from flask import Flask, jsonify
 import psycopg2
 import os
 from psycopg2.extras import RealDictCursor
-from pprint import pprint
 import datetime
 from app.__init__ import app
 
@@ -12,21 +11,20 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        self.database = "d5fecfgnpfmlqi"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com",
-                                            database=self.database,
-                                            user="ynfddvrqapwhki",
-                                            password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
+            self.conn = psycopg2.connect(host="ec2-50-19-249-121.compute-1.amazonaws.com",
+                                            database="d9fsit8u8si0p2",
+                                            user="tzhzehaqthsqlr",
+                                            password="6c87b77ee20e8d9c7b84f962daaace4de1736bebe09481b178032f6bddc24b67",
                                             port="5432")
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
-            pprint ('****INFO****: Database connection to '+self.database+' successfuly created')
+            print ('****INFO****: Database connection to successfuly created')
 
         except psycopg2.DatabaseError as dberror:
-            pprint (dberror)
+            print (dberror)
 
     def drop_tables(self):
         """drop tables if exist"""
@@ -58,7 +56,7 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS users (
                 userid SERIAL PRIMARY KEY, 
                 name VARCHAR(50) NOT NULL,
-                username VARCHAR(12) NOT NULL UNIQUE, 
+                username VARCHAR(12) NOT NULL, 
                 password VARCHAR(12) NOT NULL, 
                 role VARCHAR(50) DEFAULT 'user',
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -99,8 +97,7 @@ class DatabaseConnection:
             self.cur.execute(
                 "SELECT * FROM parcels WHERE orderID = %s", [_orderID]
             )
-            _parcels = self.cur.fetchone()
-            return _parcels
+            return self.cur.fetchone()
 
         except:
             return False
@@ -118,29 +115,18 @@ class DatabaseConnection:
         except:
             return False
 
-    def check_parcel_exists_id(self, orderID):
-        """check if parcel exists"""
-
-        try:
-            self.cur.execute(
-                "SELECT * FROM parcels WHERE orderID = %s", [orderID]) 
-            return self.cur.fetchone()
-
-        except:
-            return False
-
-    def update_parcel(self, myorder):
+    def update_parcel(self, orderID, myorder):
         """update parcel data"""
         try:
             self.cur.execute(
-                "UPDATE parcels SET destination='{}', pickupLocation={}, parcelSize = '{}',\
+                "UPDATE parcels SET destination='{}', pickupLocation='{}', parcelSize = '{}',\
                  price = '{}', status = '{}',\
-                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
-                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, myorder.orderID)
+                  updated_on=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
+                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, orderID)
             )
-
-        except:
-            return False
+            return True
+        except Exception as ex:
+            return format(ex)
 
     def add_user(self, user):
         """add users"""
@@ -176,7 +162,7 @@ class DatabaseConnection:
             self.cur.execute(
                 """
                 INSERT INTO users(name, username, password, role)\
-                VALUES('admin', 'admin', 'admin', 'admin');
+                VALUES('john', 'hero', 'admin', 'user'),('admin', 'admin', 'admin', 'admin');
                 """
             )
             return {"msg":"*** Created default user ***"}
