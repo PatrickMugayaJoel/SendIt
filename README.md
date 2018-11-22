@@ -23,20 +23,19 @@ For installation of this project:  `$ https://github.com/PatrickMugayaJoel/SendI
  
 # Languages
 
-* PYTHON
-* SQL
+* PYTHON 3.7
  
 # Installing
 
 * Clone this: https://github.com/PatrickMugayaJoel/SendIt/tree/feature
-* Install python
+* Install python 3.7
 * Setup a virtual enviroment and activate it
-* Install flask
-* run the 'run.py' file in the root directory.
+* Install requirements
+* Execute the 'run.py' file in the root directory.
 
 ## Run the app
 
-`$ run the run.py`
+`$ python run.py`
 
 ## Authors
 

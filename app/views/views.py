@@ -4,12 +4,9 @@ from app import app
 from app.models.user import User
 from flasgger import swag_from
 from app.models.delivery_order import DeliveryOrder
-from app.utils.serialize import serialize
 import datetime
-from pprint import pprint
 from database import DatabaseConnection
 from flask import jsonify, request
-from app.utils.controllers import create_id
 from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity)
 
 database = DatabaseConnection()
@@ -23,7 +20,7 @@ access_token = None
 
 myuser = User()
 if not myuser.add(database.getoneUser(1)):
-    pprint('****ERROR**** default user not validated')
+    print('****ERROR**** default user not validated')
 
 #index route
 @app.route('/')
@@ -33,7 +30,7 @@ def home():
 
 #Login route
 @app.route('/api/v1/login', methods=['POST'])
-@swag_from('../docs/view/login.yaml')
+#@swag_from('../docs/view/login.yaml')
 def login():
     """login route"""
     if not request.is_json:
@@ -52,7 +49,7 @@ def login():
 
 #get all delivery orders
 @app.route('/api/v1/parcels', methods=['GET'])
-@swag_from('../docs/view/get_all_orders.yaml')
+#@swag_from('../docs/view/get_all_orders.yaml')
 @jwt_required
 def deliveryOrders():
     """ get parcels route """
@@ -70,7 +67,7 @@ def deliveryOrders():
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
-@swag_from('../docs/view/createorder.yaml')
+#@swag_from('../docs/view/createorder.yaml')
 @jwt_required
 def deliveryOrderspost():
     """ post parcels route """
@@ -88,14 +85,14 @@ def deliveryOrderspost():
         newparcel = serialize(newparcel)
 
         if not database.insert_data_parcels(newparcel)==True:
-            return('database insertion error'),4000
+            return('database insertion error'),400
 
         return jsonify(newparcel), 201
     return jsonify({"message":"User id was not found or No data was posted"}), 400
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-@swag_from('../docs/view/pickoneparcel.yaml')
+#@swag_from('../docs/view/pickoneparcel.yaml')
 @jwt_required
 def delivery_Order(orderID):
     """ selecting a parcel by id """
@@ -109,7 +106,7 @@ def delivery_Order(orderID):
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
-@swag_from('../docs/view/pickusersparcels.yaml')
+#@swag_from('../docs/view/pickusersparcels.yaml')
 @jwt_required
 def parcelOrders(userID):
     """ selscting parcel by userid """
@@ -123,7 +120,7 @@ def parcelOrders(userID):
 
 #Cancel a parcel delivery order
 @app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
-@swag_from('../docs/view/cancelaparcel.yaml')
+#@swag_from('../docs/view/cancelaparcel.yaml')
 @jwt_required
 def parcelOrder(orderID):
     """ canceling a parcel """
@@ -166,7 +163,7 @@ def createuserpost():
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
-@swag_from('../docs/view/getallusers.yaml')
+#@swag_from('../docs/view/getallusers.yaml')
 @jwt_required
 def getusers():
     """ get users route """
@@ -182,7 +179,7 @@ def getusers():
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
-@swag_from('../docs/view/pickausers.yaml')
+#@swag_from('../docs/view/pickausers.yaml')
 @jwt_required
 def getuser_byid(userid):
     """ get a user by id """
@@ -201,7 +198,7 @@ def getuser_byid(userid):
 
 #Promote user
 @app.route('/api/v1/users/<int:userid>/promote', methods=['PUT'])
-@swag_from('../docs/view/promoteuser.yaml')
+#@swag_from('../docs/view/promoteuser.yaml')
 @jwt_required
 def promote(userid):
     """ get a user by id """
@@ -214,7 +211,7 @@ def promote(userid):
     try:
         if user['userid']:
             user['role']='admin'
-            pprint(database.update_user(user))
+            print(database.update_user(user))
             return jsonify(user), 200
         return user['msg'], 400
     except:
@@ -223,7 +220,7 @@ def promote(userid):
 """Logout"""
 @jwt_required
 @app.route('/api/v1/logout', methods=['GET'])
-@swag_from('../docs/view/logout.yaml')
+#@swag_from('../docs/view/logout.yaml')
 def logout():
     """ logout """
     blacklist.add(access_token)
@@ -232,14 +229,11 @@ def logout():
 def check_if_token_in_blacklist():
     return access_token in blacklist
 
-"""Clear all parcels"""
-@app.route('/parcels/cancel', methods=['GET'])
-def cancelparcels():
-    """ canceling all parcels """
-    return database.truncate('parcels')
+def serialize(objt):
+    return objt.__dict__
 
-"""Clear all users"""
-@app.route('/users/cancel', methods=['GET'])
-def cancelusers():
-    """ canceling all users """
-    return database.truncate('users')
+def serialize_list(mylist):
+    listtwo = []
+    for item in mylist:
+        listtwo.append(serialize(item))
+    return listtwo
