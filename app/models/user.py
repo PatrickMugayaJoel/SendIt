@@ -2,8 +2,6 @@
 User model structure
 """
 
-from cerberus import Validator
-
 class User:
     """
     User model structure
@@ -13,15 +11,10 @@ class User:
 
     def add(self, user):
 
-        schema = {'userid': {'type': 'integer'}, 'name': {'type': 'string'}, 'username': {'type': 'string'}, 'password': {'type': 'string'}, 'role': {'type': 'string'}}
-
-        v = Validator(schema)
-
-        if v.validate(user, schema):
-            self.userid = user['userid']
+        if isinstance(user['name'], str) and isinstance(user['username'], str):
             self.name = user['name'].strip()
             self.username = user['username'].strip()
             self.password = user['password'].strip()
-            self.role = user['role'].strip()
             return(True)
-        return(False)
+        return({'msg':"Name and Username must be strings","status":"failed"})
+

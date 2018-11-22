@@ -1,6 +1,6 @@
-# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=ch-conforming_to_pylint_style-161861106)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg?branch=ch-conforming_to_pylint_style-161861106)](https://coveralls.io/github/PatrickMugayaJoel/SendIt?branch=ch-conforming_to_pylint_style-161861106) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
+# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=develop)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg?branch=develop)](https://coveralls.io/github/PatrickMugayaJoel/SendIt?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
 
-SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.
+SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight & size.
     
 
 # Getting Started
@@ -10,37 +10,32 @@ For installation of this project:  `$ https://github.com/PatrickMugayaJoel/SendI
 # Prerequisites
 
 * A text editor e.g. Sublime Text, Notepad++
+* A python runtime enviroment
 * A web browser e.g. Google Chrome, Mozilla Firefox
 
 # Features
 
-* Users can create an account and log in.
-* Users can create a parcel delivery order.
-* Users can change the destination of a parcel delivery order.
-* Users can cancel a parcel delivery order.
-* Users can see the details of a delivery order.
-* Admin can change the status and present location of a parcel delivery order.
-
-# gh-pages link
-
-`$ https://patrickmugayajoel.github.io/SendIt/UI/template`
+* Users can signup.
+* Users can login.
+* Users can add a parcel.
+* Users can view all his parcels.
+* Admin can update the status of a delivery order.
  
 # Languages
 
-* HTML
-* CSS
+* PYTHON 3.7
  
 # Installing
 
-* Clone this: https://github.com/PatrickMugayaJoel/SendIt.git
-* Install python
+* Clone this: https://github.com/PatrickMugayaJoel/SendIt/tree/feature
+* Install python 3.7
 * Setup a virtual enviroment and activate it
-* Install flask
-* run the 'run.py' file in the root directory.
+* Install requirements
+* Execute the 'run.py' file in the root directory.
 
 ## Run the app
 
-`$ open the index.html file with a web browser`
+`$ python run.py`
 
 ## Authors
 
