@@ -176,7 +176,7 @@ class DatabaseConnection:
             self.cur.execute(
                 """
                 INSERT INTO users(name, username, password, role)\
-                VALUES('john', 'hero', 'admin', 'user'),('admin', 'admin', 'admin', 'admin');
+                VALUES('admin', 'admin', 'admin', 'admin');
                 """
             )
             return {"msg":"*** Created default user ***"}
