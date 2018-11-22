@@ -8,6 +8,7 @@ from pprint import pprint
 import datetime
 from app.__init__ import app
 
+
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
@@ -17,13 +18,12 @@ class DatabaseConnection:
             self.conn = psycopg2.connect(host="ec2-23-21-201-12.compute-1.amazonaws.com",
                                             database=self.database,
                                             user="ynfddvrqapwhki",
-                                            sslmode='require',
                                             password="b42fa1ec706f303dfb6236c50fedb1602e1e7f5b7ae58b6499fc020ec4a9cae1",
                                             port="5432")
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
-            pprint ('****INFO****: Database connection successfuly created')
+            pprint ('****INFO****: Database connection to '+self.database+' successfuly created')
 
         except psycopg2.DatabaseError as dberror:
             pprint (dberror)
