@@ -4,12 +4,9 @@ from app import app
 from app.models.user import User
 from flasgger import swag_from
 from app.models.delivery_order import DeliveryOrder
-from app.utils.serialize import serialize
 import datetime
-from pprint import pprint
 from database import DatabaseConnection
 from flask import jsonify, request
-from app.utils.controllers import create_id
 from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity)
 
 database = DatabaseConnection()
@@ -23,7 +20,7 @@ access_token = None
 
 myuser = User()
 if not myuser.add(database.getoneUser(1)):
-    pprint('****ERROR**** default user not validated')
+    print('****ERROR**** default user not validated')
 
 #index route
 @app.route('/')
@@ -214,7 +211,7 @@ def promote(userid):
     try:
         if user['userid']:
             user['role']='admin'
-            pprint(database.update_user(user))
+            print(database.update_user(user))
             return jsonify(user), 200
         return user['msg'], 400
     except:
@@ -232,14 +229,11 @@ def logout():
 def check_if_token_in_blacklist():
     return access_token in blacklist
 
-"""Clear all parcels"""
-@app.route('/parcels/cancel', methods=['GET'])
-def cancelparcels():
-    """ canceling all parcels """
-    return database.truncate('parcels')
+def serialize(objt):
+    return objt.__dict__
 
-"""Clear all users"""
-@app.route('/users/cancel', methods=['GET'])
-def cancelusers():
-    """ canceling all users """
-    return database.truncate('users')
+def serialize_list(mylist):
+    listtwo = []
+    for item in mylist:
+        listtwo.append(serialize(item))
+    return listtwo

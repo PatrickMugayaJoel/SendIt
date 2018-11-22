@@ -1,14 +1,13 @@
 User Signup.
 ---
 tags:
-  - user
   - Signup
   
 parameters:
   - in: body
     name: body
     required: true
-    type: string
+    type: '{"name":"string","password":"string","username":"string"}'
     description: This route is for Signing a user up. 
 responses:
   201:
@@ -18,7 +17,7 @@ responses:
       properties:
         userid:
           type: integer
-          default: 1
+          default: "1"
         name:
           type: string 
           default: admin
