@@ -33,7 +33,7 @@ def home():
 
 #Login route
 @app.route('/api/v1/login', methods=['POST'])
-@swag_from('../docs/view/login.yaml')
+#@swag_from('../docs/view/login.yaml')
 def login():
     """login route"""
     if not request.is_json:
@@ -52,7 +52,7 @@ def login():
 
 #get all delivery orders
 @app.route('/api/v1/parcels', methods=['GET'])
-@swag_from('../docs/view/get_all_orders.yaml')
+#@swag_from('../docs/view/get_all_orders.yaml')
 @jwt_required
 def deliveryOrders():
     """ get parcels route """
@@ -70,7 +70,7 @@ def deliveryOrders():
 
 #post a delivery order
 @app.route('/api/v1/parcels', methods=['POST'])
-@swag_from('../docs/view/createorder.yaml')
+#@swag_from('../docs/view/createorder.yaml')
 @jwt_required
 def deliveryOrderspost():
     """ post parcels route """
@@ -88,14 +88,14 @@ def deliveryOrderspost():
         newparcel = serialize(newparcel)
 
         if not database.insert_data_parcels(newparcel)==True:
-            return('database insertion error'),4000
+            return('database insertion error'),400
 
         return jsonify(newparcel), 201
     return jsonify({"message":"User id was not found or No data was posted"}), 400
 
 #Get a parcel by ID
 @app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-@swag_from('../docs/view/pickoneparcel.yaml')
+#@swag_from('../docs/view/pickoneparcel.yaml')
 @jwt_required
 def delivery_Order(orderID):
     """ selecting a parcel by id """
@@ -109,7 +109,7 @@ def delivery_Order(orderID):
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
-@swag_from('../docs/view/pickusersparcels.yaml')
+#@swag_from('../docs/view/pickusersparcels.yaml')
 @jwt_required
 def parcelOrders(userID):
     """ selscting parcel by userid """
@@ -123,7 +123,7 @@ def parcelOrders(userID):
 
 #Cancel a parcel delivery order
 @app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
-@swag_from('../docs/view/cancelaparcel.yaml')
+#@swag_from('../docs/view/cancelaparcel.yaml')
 @jwt_required
 def parcelOrder(orderID):
     """ canceling a parcel """
@@ -166,7 +166,7 @@ def createuserpost():
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
-@swag_from('../docs/view/getallusers.yaml')
+#@swag_from('../docs/view/getallusers.yaml')
 @jwt_required
 def getusers():
     """ get users route """
@@ -182,7 +182,7 @@ def getusers():
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
-@swag_from('../docs/view/pickausers.yaml')
+#@swag_from('../docs/view/pickausers.yaml')
 @jwt_required
 def getuser_byid(userid):
     """ get a user by id """
@@ -201,7 +201,7 @@ def getuser_byid(userid):
 
 #Promote user
 @app.route('/api/v1/users/<int:userid>/promote', methods=['PUT'])
-@swag_from('../docs/view/promoteuser.yaml')
+#@swag_from('../docs/view/promoteuser.yaml')
 @jwt_required
 def promote(userid):
     """ get a user by id """
@@ -223,7 +223,7 @@ def promote(userid):
 """Logout"""
 @jwt_required
 @app.route('/api/v1/logout', methods=['GET'])
-@swag_from('../docs/view/logout.yaml')
+#@swag_from('../docs/view/logout.yaml')
 def logout():
     """ logout """
     blacklist.add(access_token)

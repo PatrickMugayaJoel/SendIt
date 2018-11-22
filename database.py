@@ -4,7 +4,6 @@ from flask import Flask, jsonify
 import psycopg2
 import os
 from psycopg2.extras import RealDictCursor
-from pprint import pprint
 import datetime
 from app.__init__ import app
 
@@ -12,21 +11,20 @@ from app.__init__ import app
 class DatabaseConnection:
     """Connect to the database"""
     def __init__(self):
-        self.database = "d9fsit8u8si0p2"
 
         try:
-            self.conn = psycopg2.connect(host="ec2-50-19-249-121.compute-1.amazonaws.com",
-                                            database=self.database,
-                                            user="tzhzehaqthsqlr",
-                                            password="6c87b77ee20e8d9c7b84f962daaace4de1736bebe09481b178032f6bddc24b67",
-                                            port="5432")
+            self.conn = psycopg2.connect(host=os.environ.get('host'),
+                                            database=os.environ.get('database'),
+                                            user=os.environ.get('user'),
+                                            password=os.environ.get('user'),
+                                            port=os.environ.get('port'))
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
-            pprint ('****INFO****: Database connection to '+self.database+' successfuly created')
+            print ('****INFO****: Database connection to successfuly created')
 
         except psycopg2.DatabaseError as dberror:
-            pprint (dberror)
+            print (dberror)
 
     def drop_tables(self):
         """drop tables if exist"""
