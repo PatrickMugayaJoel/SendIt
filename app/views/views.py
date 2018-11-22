@@ -43,7 +43,7 @@ def login():
     if not credentials:
         return jsonify({"login3": "Wrong username or password"}), 401
 
-    access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']})
+    access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']}, expires_delta=False)
     return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
 
 #get all delivery orders
@@ -127,9 +127,42 @@ def parcelOrder(orderID):
         if not parcel['userid'] == userdata['userid']:
             return jsonify("Update Rights denied!"), 401
         parcel['status'] = 'Cancelled'
-        database.update_parcel(parcel)
+        database.update_parcel(orderID,parcel)
         return jsonify(parcel), 200
     return 'Sorry parcel order id: %d not found!'%orderID, 400
+
+#Update a parcel delivery order
+@app.route('/api/v1/parcels/<int:orderID>/update', methods=['PUT'])
+@jwt_required
+def updateparcelOrder(orderID):
+    """ updating a parcel """
+    if check_if_token_in_blacklist():
+        return jsonify("User logged out"), 401
+
+    identity = get_jwt_identity()
+    parcel = database.getoneparcel(orderID)
+
+    if parcel:
+        pass
+    else:
+        return jsonify({"msg":"Parcel not found","status":"failed"}), 400
+
+    if not parcel["userid"]==identity["userid"] or not identity["role"]=="admin":
+        return jsonify({"msg":"Update Rights denied!","status":"failed"}), 401
+
+    data = request.get_json()
+
+    if data:
+        newparcel = DeliveryOrder()
+        data['userid']=0
+        result = newparcel.add(data)
+        if not result == True:
+            return jsonify(result), 400
+
+    dbresult = database.update_parcel(parcel["orderid"],newparcel)
+    if dbresult==True:
+        return jsonify({'msg':"Parcel successfuly Updated", "status":"success"}), 200
+    return jsonify({'msg':dbresult, "status":"failed"}), 400
 
 #post. Signup a user
 @app.route('/api/v1/signup', methods=['POST'])

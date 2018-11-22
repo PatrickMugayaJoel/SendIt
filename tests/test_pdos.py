@@ -22,7 +22,7 @@ class test_parcel_orders(unittest.TestCase):
         database.drop_tables()
         database.create_tables()
         database.default_user()
-        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
+        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": 200, "status": "in transit", "userid": 1 }
         self.user = {"name":"admin", "username":"test", "password":"admin"}
         self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
         response = self.test.post('/api/v1/login', data=json.dumps({"username":"admin", "password":"admin"}), content_type='application/json')

@@ -15,7 +15,7 @@ class test_parcel_orders(unittest.TestCase):
     def setUp(self):
         """set up params"""
         self.test = app.test_client()
-        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": "200", "status": "in transit", "userid": 1 }
+        self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": 200, "status": "in transit", "userid": 1 }
         self.user = {"userid":1, "name":"admin", "username":"test2", "password":"admin"}
         database.drop_tables()
         database.create_tables()
