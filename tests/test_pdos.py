@@ -25,11 +25,15 @@ class test_parcel_orders(unittest.TestCase):
         self.parcel = { "date": "date", "destination": "destination", "parcelSize": "parcelSize", "pickupLocation": "pickupLocation", "price": 200, "status": "in transit", "userid": 1 }
         self.user = {"name":"admin", "username":"test", "password":"admin"}
         self.test.post("/api/v1/signup", headers={"Content-Type": "application/json"}, data=json.dumps(self.user))
+        response = self.test.post('/api/v1/login', data=json.dumps({"username":"test", "password":"admin"}), content_type='application/json')
+        data = json.loads(response.data)
+        token = data.get('access_token')
+        self.Nheaders = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
+        self.test.post("/api/v1/parcels", headers=self.Nheaders, data=json.dumps(self.parcel))
         response = self.test.post('/api/v1/login', data=json.dumps({"username":"admin", "password":"admin"}), content_type='application/json')
         data = json.loads(response.data)
         token = data.get('access_token')
         self.headers = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
-        self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
 
     def tearDown(self):
         """tear down params"""
@@ -39,8 +43,8 @@ class test_parcel_orders(unittest.TestCase):
     #test cancel a parcel loads the data?
     def test_cancel_parcel_loads_data(self):
         """testing cancel parcel with data"""
-        response = self.test.put('/api/v1/parcels/1/cancel', headers=self.headers)
-        #self.assertEqual(response.status_code, 200)
+        response = self.test.put('/api/v1/parcels/1/cancel', headers=self.Nheaders)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(b'Cancelled' in response.data)
 
     #test login
