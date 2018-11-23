@@ -56,7 +56,7 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS users (
                 userid SERIAL PRIMARY KEY, 
                 name VARCHAR(50) NOT NULL,
-                username VARCHAR(12) NOT NULL, 
+                username VARCHAR(12) NOT NULL UNIQUE, 
                 password VARCHAR(12) NOT NULL, 
                 role VARCHAR(50) DEFAULT 'user',
                 created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

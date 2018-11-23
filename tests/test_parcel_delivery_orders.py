@@ -25,6 +25,10 @@ class test_parcel_orders(unittest.TestCase):
         data = json.loads(response.data)
         token = data.get('access_token')
         self.headers = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
+        response = self.test.post('/api/v1/login', data=json.dumps({"username":"test2", "password":"admin"}), content_type='application/json')
+        data = json.loads(response.data)
+        token = data.get('access_token')
+        self.Nheaders = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
 
     def tearDown(self):
         """tear down params"""
@@ -46,7 +50,7 @@ class test_parcel_orders(unittest.TestCase):
     #test posting an empty parcel
     def test_post_empty_parcels(self):
         """parcels page with empty list"""
-        response = self.test.post('/api/v1/parcels', headers=self.headers)
+        response = self.test.post('/api/v1/parcels', headers=self.Nheaders)
         self.assertEqual(response.status_code, 400)
 
     #test posting an empty user
@@ -77,9 +81,7 @@ class test_parcel_orders(unittest.TestCase):
     #test posting with parcel data
     def test_post_data_parcels(self):
         """posting parcel data"""
-        self.user["username"] = "test4"
-        self.test.post("/api/v1/signup", headers=self.headers, data=json.dumps(self.user))
-        res = self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
+        res = self.test.post("/api/v1/parcels", headers=self.Nheaders, data=json.dumps(self.parcel))
         self.assertEqual(res.status_code, 201)
         self.assertTrue(b'status' in res.data)
 
