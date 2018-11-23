@@ -124,7 +124,7 @@ def delivery_Order(orderID):
     parcel = database.getoneparcel(orderID)
     if parcel:
         return jsonify({"parcels":parcel,"status":"success"}), 200
-    return jsonify({"msg":'Sorry parcel found!',"status":"failed"}), 400
+    return jsonify({"msg":'Sorry parcel not found!',"status":"failed"}), 400
 
 #Get a parcels by userID
 @app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
@@ -204,7 +204,7 @@ def getusers():
         return jsonify({"msg":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
     listusers = database.getUsers()
     if listusers:
-        return jsonify(listusers), 200
+        return jsonify({"users":listusers,"status":"success"}), 200
     return jsonify({"msg":"There are no users to display","satus":"failed"}), 400
 
 #Get a user by ID
