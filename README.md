@@ -33,6 +33,28 @@ For installation of this project:  `$ https://github.com/PatrickMugayaJoel/SendI
 * Install requirements
 * Execute the 'run.py' file in the root directory.
 
+## Login Credentials
+
+| User Role | Username | Password |
+| ----------- | -------- | --------- |
+| Owner | admin | admin |
+
+## Endpoints
+
+| REQUEST | ROUTE | FUNCTIONALITY |
+| ------- | ----- | ------------- |
+| POST | /api/v1/signup |Create a New User|
+| POST | /api/v1/login |Login a User|
+| POST | /api/v1/parcels | Adds a new parcel |
+| GET | /api/v1/parcels | list of parcel |
+| GET | /api/v1/parcels/1 | Get a parcel |
+| PUT | /api/v1/parcels/1/cancel | Cancel a parcel |
+| PUT | /api/v1/parcels/1/update | Update a parcel |
+| PUT | /api/v1/users/1/promote | Makes user an admin |
+| GET | /api/v1/users/1/parcels | User's parcels |
+| GET | /api/v1/users | List of users |
+| GET | /api/v1/users/1 | Returns a user |
+
 ## Run the app
 
 `$ python run.py`

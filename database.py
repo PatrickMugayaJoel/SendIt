@@ -13,11 +13,11 @@ class DatabaseConnection:
     def __init__(self):
 
         try:
-            self.conn = psycopg2.connect(host=os.environ.get('host'),
-                                            database=os.environ.get('database'),
-                                            user=os.environ.get('user'),
-                                            password=os.environ.get('password'),
-                                            port=os.environ.get('port'))
+            self.conn = psycopg2.connect(host="ec2-50-19-249-121.compute-1.amazonaws.com",
+                                            database="d9fsit8u8si0p2",
+                                            user="tzhzehaqthsqlr",
+                                            password="6c87b77ee20e8d9c7b84f962daaace4de1736bebe09481b178032f6bddc24b67",
+                                            port="5432")
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
@@ -97,8 +97,7 @@ class DatabaseConnection:
             self.cur.execute(
                 "SELECT * FROM parcels WHERE orderID = %s", [_orderID]
             )
-            _parcels = self.cur.fetchone()
-            return _parcels
+            return self.cur.fetchone()
 
         except:
             return False
@@ -116,29 +115,18 @@ class DatabaseConnection:
         except:
             return False
 
-    def check_parcel_exists_id(self, orderID):
-        """check if parcel exists"""
-
-        try:
-            self.cur.execute(
-                "SELECT * FROM parcels WHERE orderID = %s", [orderID]) 
-            return self.cur.fetchone()
-
-        except:
-            return False
-
-    def update_parcel(self, myorder):
+    def update_parcel(self, orderID, myorder):
         """update parcel data"""
         try:
             self.cur.execute(
-                "UPDATE parcels SET destination='{}', pickupLocation={}, parcelSize = '{}',\
+                "UPDATE parcels SET destination='{}', pickupLocation='{}', parcelSize = '{}',\
                  price = '{}', status = '{}',\
-                  date_updated=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
-                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, myorder.orderID)
+                  updated_on=CURRENT_TIMESTAMP WHERE orderID = {}".format(myorder.destination,\
+                   myorder.pickupLocation, myorder.parcelSize, myorder.price, myorder.status, orderID)
             )
-
-        except:
-            return False
+            return True
+        except Exception as ex:
+            return format(ex)
 
     def add_user(self, user):
         """add users"""
