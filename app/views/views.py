@@ -243,7 +243,7 @@ def promote(userid):
             return jsonify({"user":user,"satus":"success"}), 200
         return jsonify({"msg":"User does not exist","satus":"failed"}), 400
     except:
-            return jsonify({"msg":"User does not exist error"}), 400
+            return jsonify({"msg":"User does not exist error","satus":"failed"}), 400
 
 """Logout"""
 @jwt_required
