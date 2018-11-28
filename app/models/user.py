@@ -1,6 +1,4 @@
-"""
-User model structure
-"""
+""" User model structure """
 
 class User:
     """
