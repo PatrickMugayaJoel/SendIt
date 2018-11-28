@@ -1,7 +1,5 @@
 """ parcel delivery order model structure """
 
-from cerberus import Validator
-
 class DeliveryOrder:
     """ parcel delivery order model structure """
     def __init__(self):
