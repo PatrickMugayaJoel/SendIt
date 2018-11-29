@@ -5,13 +5,12 @@ python:
   
 before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
+  - pip install -r requirements.txt
   - psql -c 'create database sendit;' -U postgres
 
 script:
   - python coveralls.py test
   - python coveralls.py cov
-
-  sudo: required
   
 after_success:
   - coveralls
