@@ -25,6 +25,10 @@ class test_parcel_orders(unittest.TestCase):
         data = json.loads(response.data)
         token = data.get('access_token')
         self.headers = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
+        response = self.test.post('/api/v1/login', data=json.dumps({"username":"test2", "password":"admin"}), content_type='application/json')
+        data = json.loads(response.data)
+        token = data.get('access_token')
+        self.Nheaders = {"Content-Type": "application/json", 'Authorization': f'Bearer {token}'}
 
     def tearDown(self):
         """tear down params"""
@@ -46,7 +50,7 @@ class test_parcel_orders(unittest.TestCase):
     #test posting an empty parcel
     def test_post_empty_parcels(self):
         """parcels page with empty list"""
-        response = self.test.post('/api/v1/parcels', headers=self.headers)
+        response = self.test.post('/api/v1/parcels', headers=self.Nheaders)
         self.assertEqual(response.status_code, 400)
 
     #test posting an empty user
@@ -59,7 +63,7 @@ class test_parcel_orders(unittest.TestCase):
     def test_get_parcel_by_id(self):
         """get a parcel by its id"""
         response = self.test.get('/api/v1/parcels/3', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     #test get user by id
     def test_get_user_by_id(self):
@@ -72,14 +76,12 @@ class test_parcel_orders(unittest.TestCase):
     def test_get_parcel_by_userid(self):
         """get parcels by user id"""
         response = self.test.get('/api/v1/users/4/parcels', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     #test posting with parcel data
     def test_post_data_parcels(self):
         """posting parcel data"""
-        self.user["username"] = "test4"
-        self.test.post("/api/v1/signup", headers=self.headers, data=json.dumps(self.user))
-        res = self.test.post("/api/v1/parcels", headers=self.headers, data=json.dumps(self.parcel))
+        res = self.test.post("/api/v1/parcels", headers=self.Nheaders, data=json.dumps(self.parcel))
         self.assertEqual(res.status_code, 201)
         self.assertTrue(b'status' in res.data)
 
@@ -95,4 +97,4 @@ class test_parcel_orders(unittest.TestCase):
     def test_cancel_parcel(self):
         """cancel a parcel"""
         response = self.test.put('/api/v1/parcels/3/cancel', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)

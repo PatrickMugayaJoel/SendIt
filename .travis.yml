@@ -5,13 +5,11 @@ python:
   
 before_install:
   - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
-  - pip install -U pip
-  - pip install -U tox coverage coveralls
   - pip install -r requirements.txt
+  - psql -c 'create database travis;' -U postgres
 
 script:
-  - nosetests --with-cov --cov tests
+  - python coveralls.py cov
   
 after_success:
-  - codecov
   - coveralls

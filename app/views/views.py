@@ -26,143 +26,7 @@ if not myuser.add(database.getoneUser(1)):
 @app.route('/')
 def home():
     """ home route """
-    return jsonify('welcome'), 200
-
-#Login route
-@app.route('/api/v1/login', methods=['POST'])
-def login():
-    """login route"""
-    if not request.is_json:
-        return jsonify({"login2": "Missing JSON data"}), 400
-
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
-
-    credentials = database.check_user_exists(username.strip(), password.strip())
-    
-    if not credentials:
-        return jsonify({"login3": "Wrong username or password"}), 401
-
-    access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']}, expires_delta=False)
-    return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
-
-#get all delivery orders
-@app.route('/api/v1/parcels', methods=['GET'])
-@jwt_required
-def deliveryOrders():
-    """ get parcels route """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-
-    userdata=get_jwt_identity()
-    if userdata['role'] == 'admin':
-        myparcelorders = database.getparcels()
-    else:
-        myparcelorders = database.getparcelsbyuser(userdata['userid'])
-    if myparcelorders:
-        return jsonify(myparcelorders), 200
-    return jsonify({"message":"There are no orders to display or DB error"}), 400
-
-#post a delivery order
-@app.route('/api/v1/parcels', methods=['POST'])
-@jwt_required
-def deliveryOrderspost():
-    """ post parcels route """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-        
-    data = request.get_json()
-    if data:
-        userdata = get_jwt_identity()
-        data['userid'] = userdata['userid']
-        newparcel = DeliveryOrder()
-        result = newparcel.add(data)
-        if not result == True:
-            return jsonify(result), 400
-        newparcel = serialize(newparcel)
-
-        if not database.insert_data_parcels(newparcel)==True:
-            return('database insertion error'),400
-
-        return jsonify(newparcel), 201
-    return jsonify({"message":"User id was not found or No data was posted"}), 400
-
-#Get a parcel by ID
-@app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
-@jwt_required
-def delivery_Order(orderID):
-    """ selecting a parcel by id """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-        
-    parcel = database.getoneparcel(orderID)
-    if parcel:
-        return jsonify(parcel), 200
-    return 'Sorry parcel with id: %d not found!'%orderID, 400
-
-#Get a parcels by userID
-@app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
-@jwt_required
-def parcelOrders(userID):
-    """ selscting parcel by userid """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-        
-    userparcel = database.getparcelsbyuser(userID)
-    if userparcel:
-        return jsonify(userparcel), 200
-    return 'Sorry user with id: %d not found!'%userID, 400
-
-#Cancel a parcel delivery order
-@app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
-@jwt_required
-def parcelOrder(orderID):
-    """ canceling a parcel """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-        
-    parcel = database.getoneparcel(orderID)
-    if parcel:
-        userdata = get_jwt_identity()
-        if not parcel['userid'] == userdata['userid']:
-            return jsonify("Update Rights denied!"), 401
-        parcel['status'] = 'Cancelled'
-        database.update_parcel(orderID,parcel)
-        return jsonify(parcel), 200
-    return 'Sorry parcel order id: %d not found!'%orderID, 400
-
-#Update a parcel delivery order
-@app.route('/api/v1/parcels/<int:orderID>/update', methods=['PUT'])
-@jwt_required
-def updateparcelOrder(orderID):
-    """ updating a parcel """
-    if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
-
-    identity = get_jwt_identity()
-    parcel = database.getoneparcel(orderID)
-
-    if parcel:
-        pass
-    else:
-        return jsonify({"msg":"Parcel not found","status":"failed"}), 400
-
-    if not parcel["userid"]==identity["userid"] or not identity["role"]=="admin":
-        return jsonify({"msg":"Update Rights denied!","status":"failed"}), 401
-
-    data = request.get_json()
-
-    if data:
-        newparcel = DeliveryOrder()
-        data['userid']=0
-        result = newparcel.add(data)
-        if not result == True:
-            return jsonify(result), 400
-
-    dbresult = database.update_parcel(parcel["orderid"],newparcel)
-    if dbresult==True:
-        return jsonify({'msg':"Parcel successfuly Updated", "status":"success"}), 200
-    return jsonify({'msg':dbresult, "status":"failed"}), 400
+    return jsonify({"message":'welcome',"status":"success"}), 200
 
 #post. Signup a user
 @app.route('/api/v1/signup', methods=['POST'])
@@ -176,17 +40,157 @@ def createuserpost():
         thisuser = newuser.add(data)
         if not thisuser == True:
             return jsonify(thisuser), 401
-        
-        result = database.add_user(newuser)
-        if not result == True:
-            return jsonify(result), 400
+
+        if not database.add_user(newuser) == True:
+            return jsonify({"message":"User already exists","status":"failed"}), 400
 
         thisuser = database.getUserbyUsername(data['username'])
         if not thisuser["userid"]:
-            return thisuser["msg"]
+            return jsonify({"message":"User not found","status":"failed"}), 404
 
-        return jsonify(thisuser), 201
-    return jsonify({"message":"No data was posted"}), 400
+        return jsonify({"User":thisuser,"status":"success"}), 201
+    return jsonify({"message":"No data was posted","status":"failed"}), 400
+
+#Login route
+@app.route('/api/v1/login', methods=['POST'])
+def login():
+    """login route"""
+    if not request.is_json:
+        return jsonify({"message":"Missing JSON data","status":"failed"}), 400
+
+    username = request.json.get('username')
+    password = request.json.get('password')
+
+    credentials = database.check_user_exists(username.strip(), password.strip())
+    
+    if not credentials:
+        return jsonify({"message": "Wrong username or password","status":"failed"}), 401
+
+    access_token = create_access_token(identity={'userid':credentials['userid'],'role':credentials['role']}, expires_delta=False)
+    return jsonify({'access_token':access_token, 'status':'Successfull'}), 200
+
+#post a delivery order
+@app.route('/api/v1/parcels', methods=['POST'])
+@jwt_required
+def deliveryOrderspost():
+    """ post parcels route """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+    
+    userdata = get_jwt_identity()
+    if userdata["role"]=="admin":
+        return jsonify({"message":"Action not allowed for Admins","status":"failed"}), 401
+        
+    data = request.get_json()
+    if data:
+        data['userid'] = userdata['userid']
+        newparcel = DeliveryOrder()
+        result = newparcel.add(data)
+        if not result == True:
+            return jsonify(result), 400
+        newparcel = serialize(newparcel)
+
+        if not database.insert_data_parcels(newparcel)==True:
+            return jsonify({"message":"Parcel not saved","status":"failed"}),400
+
+        return jsonify({"parcel":newparcel,"status":"success"}), 201
+    return jsonify({"message":"No data was posted","satatus":"failed"}), 400
+
+#get all delivery orders
+@app.route('/api/v1/parcels', methods=['GET'])
+@jwt_required
+def deliveryOrders():
+    """ get parcels route """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+
+    userdata=get_jwt_identity()
+    if userdata['role'] == 'admin':
+        myparcelorders = database.getparcels()
+    else:
+        myparcelorders = database.getparcelsbyuser(userdata['userid'])
+    if myparcelorders:
+        return jsonify({"Parcels":myparcelorders,"status":"success"}), 200
+    return jsonify({"message":"No parcel orders to display","status":"failed"}), 400
+
+#Get a parcel by ID
+@app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
+@jwt_required
+def delivery_Order(orderID):
+    """ selecting a parcel by id """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+        
+    parcel = database.getoneparcel(orderID)
+    if parcel:
+        return jsonify({"parcels":parcel,"status":"success"}), 200
+    return jsonify({"message":'Sorry parcel not found!',"status":"failed"}), 404
+
+#Get a parcels by userID
+@app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
+@jwt_required
+def parcelOrders(userID):
+    """ selscting parcel by userid """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+        
+    userparcel = database.getparcelsbyuser(userID)
+    if userparcel:
+        return jsonify(userparcel), 200
+    return jsonify({"message":"Not found!","status":"failed"}), 404
+
+#Cancel a parcel delivery order
+@app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
+@jwt_required
+def parcelOrder(orderID):
+    """ canceling a parcel """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+        
+    parcel = database.getoneparcel(orderID)
+    if parcel:
+        userdata = get_jwt_identity()
+        if not parcel['userid'] == userdata['userid']:
+            return jsonify({"message":"Update Rights denied!","status":"failed"}), 401
+        parcel['status'] = 'Cancelled'
+        database.update_parcel(orderID,parcel)
+        return jsonify({"parcel":parcel,"status":"success"}), 200
+    return jsonify({"message":"Parcel Not found!","status":"failed"}), 404
+
+#Update a parcel delivery order
+@app.route('/api/v1/parcels/<int:orderID>/update', methods=['PUT'])
+@jwt_required
+def updateparcelOrder(orderID):
+    """ updating a parcel """
+    if check_if_token_in_blacklist():
+        return jsonify({"message":"User logged out","status":"failed"}), 401
+
+    identity = get_jwt_identity()
+    parcel = database.getoneparcel(orderID)
+
+    if parcel:
+        pass
+    else:
+        return jsonify({"message":"Parcel not found","status":"failed"}), 404
+
+    if parcel["userid"]==identity["userid"] or identity["role"]=="admin":
+        pass
+    else:
+        return jsonify({"message":"Update Rights denied!","status":"failed"}), 401
+
+    data = request.get_json()
+
+    if data:
+        newparcel = DeliveryOrder()
+        data['userid']=0
+        result = newparcel.add(data)
+        if not result == True:
+            return jsonify(result), 400
+
+    dbresult = database.update_parcel(parcel["orderid"],newparcel)
+    if dbresult==True:
+        return jsonify({'message':"Parcel successfuly Updated", "status":"success"}), 200
+    return jsonify({'message':dbresult, "status":"failed"}), 400
 
 #get all users
 @app.route('/api/v1/users', methods=['GET'])
@@ -194,14 +198,14 @@ def createuserpost():
 def getusers():
     """ get users route """
     if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
+        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
-        return jsonify('Request denied. You have to be an administrator!'), 401
+        return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
     listusers = database.getUsers()
     if listusers:
-        return jsonify(listusers), 200
-    return jsonify({"message":"There are no users to display"}), 400
+        return jsonify({"users":listusers,"status":"success"}), 200
+    return jsonify({"message":"There are no users to display","satus":"failed"}), 400
 
 #Get a user by ID
 @app.route('/api/v1/users/<int:userid>', methods=['GET'])
@@ -209,17 +213,17 @@ def getusers():
 def getuser_byid(userid):
     """ get a user by id """
     if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
+        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
-        return jsonify('Request denied. You have to be an administrator!'), 401
+        return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
     user = database.getoneUser(userid)
     try:
         if user['userid']:
-            return jsonify(user), 200
-        return user['msg'], 400
+            return jsonify({"user":user,"satus":"success"}), 200
+        return user['message'], 400
     except:
-            return jsonify({"usrbyid":"User does not exist"}), 400
+            return jsonify({"message":"User does not exist","satus":"failed"}), 400
 
 #Promote user
 @app.route('/api/v1/users/<int:userid>/promote', methods=['PUT'])
@@ -227,19 +231,19 @@ def getuser_byid(userid):
 def promote(userid):
     """ get a user by id """
     if check_if_token_in_blacklist():
-        return jsonify("User logged out"), 401
+        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
-        return jsonify('Request denied. You have to be an administrator!'), 401
+        return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
     user = database.getoneUser(userid)
     try:
         if user['userid']:
             user['role']='admin'
             print(database.update_user(user))
-            return jsonify(user), 200
-        return user['msg'], 400
+            return jsonify({"user":user,"satus":"success"}), 200
+        return jsonify({"message":"User does not exist","satus":"failed"}), 400
     except:
-            return jsonify({"gtuserbyid":"User does not exist"}), 400
+            return jsonify({"message":"User does not exist error","satus":"failed"}), 400
 
 """Logout"""
 @jwt_required
