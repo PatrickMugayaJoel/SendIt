@@ -8,8 +8,8 @@ before_install:
   - psql -c 'create database sendit;' -U postgres
 
 script:
-  - python manage.py test
-  - python manage.py cov
+  - python coveralls.py test
+  - python coveralls.py cov
 
   sudo: required
   
