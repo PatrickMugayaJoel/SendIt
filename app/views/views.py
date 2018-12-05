@@ -255,12 +255,3 @@ def logout():
 
 def check_if_token_in_blacklist():
     return access_token in blacklist
-
-def serialize(objt):
-    return objt.__dict__
-
-def serialize_list(mylist):
-    listtwo = []
-    for item in mylist:
-        listtwo.append(serialize(item))
-    return listtwo

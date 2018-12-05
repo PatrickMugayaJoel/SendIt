@@ -1,11 +1,7 @@
 """ User model structure """
 
 class User:
-    """
-    User model structure
-    """
-    def __init__(self):
-        pass
+    """ User model structure """
 
     def add(self, user):
 
