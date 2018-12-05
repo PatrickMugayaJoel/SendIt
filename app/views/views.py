@@ -2,6 +2,7 @@
 
 from app import app
 from app.models.user import User
+from app.utilities.utils import serialize
 from flasgger import swag_from
 from app.models.delivery_order import DeliveryOrder
 import datetime
