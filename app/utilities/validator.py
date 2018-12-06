@@ -1,12 +1,13 @@
-import json
+
 
 class Validator:
     """ Data validation methods """
 
     def __init__(self):
         """ class variables """
-        self.invalid_data_messages = list()
-        self.schemaa = list()
+
+        self.__invalid_data_messages = list()
+        self.__schemaa = list()
 
     def schema(self, schem):
         """
@@ -14,64 +15,74 @@ class Validator:
         [{'key':'value', 'type':'value', 'min_length':'value', 'max_length':'value', 'not_null':True}]
         types => integer, string, email
         """
-        self.schemaa = schem
+        self.__schemaa = schem
     
-    def worker(self):
+    def __worker(self):
         """ Seperating data types """
-        for item in self.schemaa:
 
-            item.update(value = self.data[item['key'].strip()])
+        for item in self.__schemaa:
+
+            if self.data.get(item['key']):
+                item.update(value = self.data[item['key'].strip()])
+            else:
+                self.__invalid_data_messages.append(item['key']+" is required.")
+                item.clear()
             
             if item.get('type'):
 
                 if item['type'] == 'string':
-                    self.is_valid_string(item)
+                    self.__is_valid_string(item)
 
                 if item['type'] == 'integer':
-                    self.is_valid_integer(item)
+                    self.__is_valid_integer(item)
 
             if item.get('not_null'):
                 if item['not_null'] == True:
-                    self.is_not_null(item)
+                    self.__is_not_null(item)
 
             if item.get('min_length'):
                 if isinstance(item['min_length'], int):
-                    self.is_min_length(item)
+                    self.__is_min_length(item)
 
-    def is_valid_string(self, item):
+    def __is_valid_string(self, item):
         """ Validating if is a strings """
+
         if not isinstance(item['value'], str):
-            self.invalid_data_messages.append(item['key']+" must be a string.")
+            self.__invalid_data_messages.append(item['key']+" must be a string.")
 
-    def is_valid_integer(self, item):
+    def __is_valid_integer(self, item):
         """ Validating if is an integet """
+
         if not isinstance(item['value'], int):
-            self.invalid_data_messages.append(item['key']+" must be an integer.")
+            self.__invalid_data_messages.append(item['key']+" must be an integer.")
 
-    def is_min_length(self, item):
+    def __is_min_length(self, item):
         """ Validating if is correct min length """
-        if not len(item['value'])>(item['min_length']-1):
-            self.invalid_data_messages.append(item['key']+" must be at least "+str(item['min_length'])+" characters long.")
 
-    def is_not_null(self, item):
+        if not len(item['value'])>(item['min_length']-1):
+            self.__invalid_data_messages.append(item['key']+" must be at least "+str(item['min_length'])+" characters long.")
+
+    def __is_not_null(self, item):
         """ Validating if not null """
+
         if not isinstance(item['value'], str):
             item['value'] = str(item['value'])
 
         if not len(item['value'])>0:
-            self.invalid_data_messages.append(item['key']+" can not be empty.")
+            self.__invalid_data_messages.append(item['key']+" can not be empty.")
     
     def validate(self, data):
         """ setting data and calling validating methods """
+
         self.data = data
-        self.worker()
+        self.__worker()
 
-        if self.invalid_data_messages:
-            return(json.dumps({'status':False, 'message':self.invalid_data_messages}))
+        if self.__invalid_data_messages:
+            return({'status':False, 'message':self.__invalid_data_messages})
         else:
-            return(json.dumps({'status':True, 'message':'successfully validated'}))
+            return({'status':True, 'message':'successfully validated'})
 
-        self.invalid_data_messages.clear()
+        self.__invalid_data_messages.clear()
 
 # if __name__ == '__main__':
 #     validator = Validator()

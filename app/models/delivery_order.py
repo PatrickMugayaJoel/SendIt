@@ -1,4 +1,5 @@
-""" parcel delivery order model structure """
+
+from app.utilities.validator import Validator
 
 class DeliveryOrder:
     """ parcel delivery order model structure """
@@ -8,7 +9,18 @@ class DeliveryOrder:
     def add(self, parcelorders):
         """ adding a parcel delivery order """
 
-        if isinstance(parcelorders['destination'], str) and isinstance(parcelorders['pickupLocation'], str) and isinstance(parcelorders['parcelSize'], str) and isinstance(parcelorders['price'], int) and isinstance(parcelorders['status'], str) and isinstance(parcelorders['userid'], int):
+        validator = Validator()
+        validator.schema([
+                            {'key':'destination', 'type':'string', 'min_length':3, 'not_null':True},
+                            {'key':'pickupLocation', 'type':'string', 'min_length':3, 'not_null':True},
+                            {'key':'parcelSize', 'type':'string', 'min_length':3, 'not_null':True},
+                            {'key':'price', 'type':'integer', 'not_null':True},
+                            {'key':'status', 'type':'string', 'not_null':True},
+                            {'key':'userid', 'type':'integer', 'not_null':True}
+                        ])
+        result = validator.validate(parcelorders)
+
+        if result['status']:
             self.destination = parcelorders['destination']
             self.pickupLocation = parcelorders['pickupLocation']
             self.parcelSize = parcelorders['parcelSize']
@@ -16,5 +28,5 @@ class DeliveryOrder:
             self.status = parcelorders['status']
             self.userid = parcelorders['userid']
             return(True)
-        return({'msg':"Price must be integer, everything else must be string","status":"failed"})
+        return(result)
         
