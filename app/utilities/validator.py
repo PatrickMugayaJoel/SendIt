@@ -1,4 +1,5 @@
 
+import re
 
 class Validator:
     """ Data validation methods """
@@ -11,7 +12,7 @@ class Validator:
 
     def schema(self, schem):
         """
-        setting a schema to compare the data against
+        setting a schema to compare the data against. for example
         [{'key':'value', 'type':'value', 'min_length':'value', 'max_length':'value', 'not_null':True}]
         types => integer, string, email
         """
@@ -36,6 +37,9 @@ class Validator:
                 if item['type'] == 'integer':
                     self.__is_valid_integer(item)
 
+                if item['type'] == 'email':
+                    self.__is_valid_email(item)
+
             if item.get('not_null'):
                 if item['not_null'] == True:
                     self.__is_not_null(item)
@@ -50,6 +54,15 @@ class Validator:
         if not isinstance(item['value'], str):
             self.__invalid_data_messages.append(item['key']+" must be a string.")
 
+    def __is_valid_email(self, item):
+        """ Validating if is a strings """
+
+        if isinstance(item['value'], str):
+            if re.match("[^@]+@[^@]+\.[^@]+", item['value']) == None:
+                self.__invalid_data_messages.append(item['key']+" is invalid.")
+        else:
+            self.__invalid_data_messages.append(item['key']+" must be a string.")
+
     def __is_valid_integer(self, item):
         """ Validating if is an integet """
 
@@ -58,6 +71,9 @@ class Validator:
 
     def __is_min_length(self, item):
         """ Validating if is correct min length """
+
+        if not isinstance(item['value'], str):
+            item['value'] = str(item['value'])
 
         if not len(item['value'])>(item['min_length']-1):
             self.__invalid_data_messages.append(item['key']+" must be at least "+str(item['min_length'])+" characters long.")
@@ -84,9 +100,9 @@ class Validator:
 
         self.__invalid_data_messages.clear()
 
-# if __name__ == '__main__':
-#     validator = Validator()
-#     user = {'name':1, 'username':'Jos','password':'','age':'5'}
-#     schema = [{'key':'name', 'type':'string', 'not_null':True}, {'key':'username', 'type':'string', 'min_length':4, 'not_null':True}, {'key':'age', 'type':'integer', 'not_null':True}, {'key':'password', 'not_null':True}]
-#     validator.schema(schema)
-#     print(validator.validate(user))
+if __name__ == '__main__':
+    validator = Validator()
+    user = {'name':'Joel', 'username':'Josean','password':'pass','email':'j@j.j'}
+    schema = [{'key':'name', 'type':'string', 'not_null':True}, {'key':'username', 'type':'string', 'min_length':4, 'not_null':True}, {'key':'email', 'type':'email', 'not_null':True}, {'key':'password', 'not_null':True}]
+    validator.schema(schema)
+    print(validator.validate(user))
