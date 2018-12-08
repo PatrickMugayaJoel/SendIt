@@ -21,16 +21,14 @@ class DatabaseConnection:
                                         
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
             self.conn.autocommit = True
-            print ('****INFO****: Database connection to successfuly created')
+            print ('Database connection to successfuly created')
 
         except psycopg2.DatabaseError as dberror:
             print (dberror)
 
     def drop_tables(self):
         """drop tables if exist"""
-        self.cur.execute(
-            "DROP TABLE IF EXISTS parcels, users CASCADE"
-        )
+        self.cur.execute("DROP TABLE IF EXISTS parcels, users CASCADE")
 
     def create_tables(self):
         """create parcels table""" 
@@ -64,7 +62,38 @@ class DatabaseConnection:
                 active BOOLEAN DEFAULT TRUE);
             """
         )
+
+        """create access_tokens table"""  
+        self.cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS access_tokens (
+                token VARCHAR(255) NOT NULL,
+                created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+            """
+        )
+
+    def blaclist_a_token(self, token):
+        """inserts values into table access_tokens"""
+
+        try:
+            self.cur.execute(
+                """INSERT INTO access_tokens(token) VALUES('{}')""".format(token)
+            )
+            return True
+
+        except Exception as ex:
+            return format(ex)
+
+    def get_blaclist_set(self):
+        """get set of blacklisted tokens"""
+
+        try:
+            self.cur.execute("SELECT token FROM access_tokens")
+            return self.cur.fetchall()
         
+        except:
+            return False
+
     def insert_data_parcels(self, data):
         """inserts values into table parcels"""
 

@@ -8,16 +8,24 @@ from app.models.delivery_order import DeliveryOrder
 import datetime
 from database import DatabaseConnection
 from flask import jsonify, request
-from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity)
+from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 
 database = DatabaseConnection()
-database.drop_tables()
+
+if app.env == 'development':
+    database.drop_tables()
+
 database.create_tables()
 database.default_user()
 
-"""jwt blacklist set"""
-blacklist = set()
-access_token = None
+blacklist = set([item['token'] for item in database.get_blaclist_set()])
+
+jwt = JWTManager(app)
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return jti in blacklist
 
 myuser = User()
 if not myuser.add(database.getoneUser(1)):
@@ -75,8 +83,6 @@ def login():
 @jwt_required
 def deliveryOrderspost():
     """ post parcels route """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
     
     userdata = get_jwt_identity()
     if userdata["role"]=="admin":
@@ -102,8 +108,6 @@ def deliveryOrderspost():
 @jwt_required
 def deliveryOrders():
     """ get parcels route """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
 
     userdata=get_jwt_identity()
     if userdata['role'] == 'admin':
@@ -119,8 +123,6 @@ def deliveryOrders():
 @jwt_required
 def delivery_Order(orderID):
     """ selecting a parcel by id """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     parcel = database.getoneparcel(orderID)
     if parcel:
@@ -132,8 +134,6 @@ def delivery_Order(orderID):
 @jwt_required
 def parcelOrders(userID):
     """ selscting parcel by userid """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     userparcel = database.getparcelsbyuser(userID)
     if userparcel:
@@ -145,8 +145,6 @@ def parcelOrders(userID):
 @jwt_required
 def parcelOrder(orderID):
     """ canceling a parcel """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     parcel = database.getoneparcel(orderID)
     if parcel:
@@ -163,8 +161,6 @@ def parcelOrder(orderID):
 @jwt_required
 def updateparcelOrder(orderID):
     """ updating a parcel """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
 
     identity = get_jwt_identity()
     parcel = database.getoneparcel(orderID)
@@ -198,8 +194,6 @@ def updateparcelOrder(orderID):
 @jwt_required
 def getusers():
     """ get users route """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
         return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
@@ -213,8 +207,6 @@ def getusers():
 @jwt_required
 def getuser_byid(userid):
     """ get a user by id """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
         return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
@@ -231,8 +223,6 @@ def getuser_byid(userid):
 @jwt_required
 def promote(userid):
     """ get a user by id """
-    if check_if_token_in_blacklist():
-        return jsonify({"message":"User logged out","status":"failed"}), 401
         
     if not get_jwt_identity()['role'] == 'admin':
         return jsonify({"message":'Request denied. You have to be an administrator!',"satus":"failed"}), 401
@@ -247,12 +237,13 @@ def promote(userid):
             return jsonify({"message":"User does not exist error","satus":"failed"}), 400
 
 """Logout"""
+@app.route('/api/v1/logout', methods=['DELETE'])
 @jwt_required
-@app.route('/api/v1/logout', methods=['GET'])
 def logout():
     """ logout """
-    blacklist.add(access_token)
-    return jsonify({"login": "Successfully logged out"}), 200
+    jti = get_raw_jwt()['jti']
+    blacklist.add(jti)
+    if database.blaclist_a_token(jti) == True:
+        return jsonify({"message": "Successfully logged out","satus":"success"}), 200
+    return jsonify({"message": "Error logging out","satus":"failed"}), 400
 
-def check_if_token_in_blacklist():
-    return access_token in blacklist
