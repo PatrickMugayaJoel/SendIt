@@ -63,7 +63,7 @@ class test_parcel_orders(unittest.TestCase):
     def test_get_parcel_by_id(self):
         """get a parcel by its id"""
         response = self.test.get('/api/v1/parcels/3', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     #test get user by id
     def test_get_user_by_id(self):
@@ -76,7 +76,7 @@ class test_parcel_orders(unittest.TestCase):
     def test_get_parcel_by_userid(self):
         """get parcels by user id"""
         response = self.test.get('/api/v1/users/4/parcels', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     #test posting with parcel data
     def test_post_data_parcels(self):
@@ -97,4 +97,4 @@ class test_parcel_orders(unittest.TestCase):
     def test_cancel_parcel(self):
         """cancel a parcel"""
         response = self.test.put('/api/v1/parcels/3/cancel', headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
