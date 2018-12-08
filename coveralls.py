@@ -5,8 +5,7 @@ from app import app
 from flask_script import Manager
 
 manager = Manager(app)
-
-
+#nosetests --with-cov --cov app tests/
 
 @manager.command
 def test():
@@ -21,7 +20,6 @@ def cov():
     cov = coverage.coverage(
         branch=True,
         include='app/*',
-
     )
     cov.start()
     tests = unittest.TestLoader().discover('tests')
