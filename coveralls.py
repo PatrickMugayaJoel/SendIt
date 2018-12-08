@@ -5,7 +5,8 @@ from app import app
 from flask_script import Manager
 
 manager = Manager(app)
-#nosetests --with-cov --cov app tests/
+#nosetests --with-cov --cov-report term-missing --cov app tests/
+#coverage report -m
 
 @manager.command
 def test():
@@ -27,7 +28,8 @@ def cov():
     cov.stop()
     cov.save()
     print('Coverage Summary:')
-    cov.report()
+    cov.report(show_missing=True)
+    cov.html_report()
     cov.erase()
 
 
