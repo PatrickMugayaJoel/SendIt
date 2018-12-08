@@ -9,7 +9,7 @@ before_install:
   - psql -c 'create database travis;' -U postgres
 
 script:
-  - python coveralls.py cov
+  - nosetests --with-cov --cov app tests/
   
 after_success:
   - coveralls
