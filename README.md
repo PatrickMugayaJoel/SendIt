@@ -1,4 +1,4 @@
-# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=develop)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg)](https://coveralls.io/github/PatrickMugayaJoel/SendIt) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
+# SendIt [![Build Status](https://travis-ci.org/PatrickMugayaJoel/SendIt.svg?branch=develop)](https://travis-ci.org/PatrickMugayaJoel/SendIt) [![Coverage Status](https://coveralls.io/repos/github/PatrickMugayaJoel/SendIt/badge.svg?branch=develop)](https://coveralls.io/github/PatrickMugayaJoel/SendIt?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/7a64cecee106d76232d1/maintainability)](https://codeclimate.com/github/PatrickMugayaJoel/SendIt/maintainability)
 
 SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight & size.
     
