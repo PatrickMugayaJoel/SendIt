@@ -14,5 +14,4 @@ script:
   - nosetests --with-cov --cov app tests/
   
 after_success:
-  - codecov
   - coveralls
