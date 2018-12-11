@@ -27,10 +27,6 @@ def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return jti in blacklist
 
-myuser = User()
-if not myuser.add(database.getoneUser(1)):
-    print('****ERROR**** default user not validated')
-
 #index route
 @app.route('/')
 def home():
@@ -41,7 +37,7 @@ class SignupView(MethodView):
     """users description"""
     #post. Signup a user
     #@app.route('/api/v1/signup', methods=['POST'])
-    def createuserpost(self):
+    def Signup(self):
         """ post. create users route """
         data = request.get_json()
         if data:
@@ -64,7 +60,7 @@ class SignupView(MethodView):
 class LoginView(MethodView):
     #Login route
     #@app.route('/api/v1/login', methods=['POST'])
-    def login(self):
+    def Login(self):
         """login route"""
         if not request.is_json:
             return jsonify({"message":"Missing JSON data","status":"failed"}), 400
@@ -84,7 +80,7 @@ class UserView(MethodView):
     #get all users
     #@app.route('/api/v1/users', methods=['GET'])
     @jwt_required
-    def getusers(self):
+    def Listusers(self):
         """ get users route """
             
         if not get_jwt_identity()['role'] == 'admin':
@@ -97,7 +93,7 @@ class UserView(MethodView):
     #Get a user by ID
     #@app.route('/api/v1/users/<int:userid>', methods=['GET'])
     @jwt_required
-    def getuser_byid(self, userid):
+    def Getuserbyid(self, userid):
         """ get a user by id """
             
         if not get_jwt_identity()['role'] == 'admin':
@@ -113,7 +109,7 @@ class UserView(MethodView):
     #Promote user
     #@app.route('/api/v1/users/<int:userid>/promote', methods=['PUT'])
     @jwt_required
-    def promote(self, userid):
+    def Promote(self, userid):
         """ get a user by id """
             
         if not get_jwt_identity()['role'] == 'admin':
@@ -132,7 +128,7 @@ class LogoutView(MethodView):
     """Logout"""
     #@app.route('/api/v1/logout', methods=['DELETE'])
     @jwt_required
-    def logout(self):
+    def Logout(self):
         """ logout """
         jti = get_raw_jwt()['jti']
         blacklist.add(jti)
@@ -140,51 +136,51 @@ class LogoutView(MethodView):
             return jsonify({"message": "Successfully logged out","satus":"success"}), 200
         return jsonify({"message": "Error logging out","satus":"failed"}), 400
 
-    class ParcelView(MethodView):
-        #post a delivery order
-        #@app.route('/api/v1/parcels', methods=['POST'])
-        @jwt_required
-        def deliveryOrderspost(self):
-            """ post parcels route """
+class ParcelView(MethodView):
+    #post a delivery order
+    #@app.route('/api/v1/parcels', methods=['POST'])
+    @jwt_required
+    def CreatedeliveryOrder(self):
+        """ post parcels route """
+        
+        userdata = get_jwt_identity()
+        if userdata["role"]=="admin":
+            return jsonify({"message":"Action not allowed for Admins","status":"failed"}), 401
             
-            userdata = get_jwt_identity()
-            if userdata["role"]=="admin":
-                return jsonify({"message":"Action not allowed for Admins","status":"failed"}), 401
-                
-            data = request.get_json()
-            if data:
-                data['userid'] = userdata['userid']
-                newparcel = DeliveryOrder()
-                result = newparcel.add(data)
-                if not result == True:
-                    return jsonify(result), 400
-                newparcel = serialize(newparcel)
+        data = request.get_json()
+        if data:
+            data['userid'] = userdata['userid']
+            newparcel = DeliveryOrder()
+            result = newparcel.add(data)
+            if not result == True:
+                return jsonify(result), 400
+            newparcel = serialize(newparcel)
 
-                if not database.insert_data_parcels(newparcel)==True:
-                    return jsonify({"message":"Parcel not saved","status":"failed"}),400
+            if not database.insert_data_parcels(newparcel)==True:
+                return jsonify({"message":"Parcel not saved","status":"failed"}),400
 
-                return jsonify({"parcel":newparcel,"status":"success"}), 201
-            return jsonify({"message":"No data was posted","satatus":"failed"}), 400
+            return jsonify({"parcel":newparcel,"status":"success"}), 201
+        return jsonify({"message":"No data was posted","satatus":"failed"}), 400
 
-        #get all delivery orders
-        #@app.route('/api/v1/parcels', methods=['GET'])
-        @jwt_required
-        def deliveryOrders(self):
-            """ get parcels route """
+    #get all delivery orders
+    #@app.route('/api/v1/parcels', methods=['GET'])
+    @jwt_required
+    def ListOrders(self):
+        """ get parcels route """
 
-            userdata=get_jwt_identity()
-            if userdata['role'] == 'admin':
-                myparcelorders = database.getparcels()
-            else:
-                myparcelorders = database.getparcelsbyuser(userdata['userid'])
-            if myparcelorders:
-                return jsonify({"Parcels":myparcelorders,"status":"success"}), 200
-            return jsonify({"message":"No parcel orders to display","status":"failed"}), 400
+        userdata=get_jwt_identity()
+        if userdata['role'] == 'admin':
+            myparcelorders = database.getparcels()
+        else:
+            myparcelorders = database.getparcelsbyuser(userdata['userid'])
+        if myparcelorders:
+            return jsonify({"Parcels":myparcelorders,"status":"success"}), 200
+        return jsonify({"message":"No parcel orders to display","status":"failed"}), 400
 
-        #Get a parcels by userID
+    #Get a parcels by userID
     #@app.route('/api/v1/users/<int:userID>/parcels', methods=['GET'])
     @jwt_required
-    def parcelOrders(self, userID):
+    def UserOrders(self, userID):
         """ selscting parcel by userid """
             
         userparcel = database.getparcelsbyuser(userID)
@@ -195,7 +191,7 @@ class LogoutView(MethodView):
     #Cancel a parcel delivery order
     #@app.route('/api/v1/parcels/<int:orderID>/cancel', methods=['PUT'])
     @jwt_required
-    def parcelOrder(self, orderID):
+    def CancelOrder(self, orderID):
         """ canceling a parcel """
             
         parcel = database.getoneparcel(orderID)
@@ -211,7 +207,7 @@ class LogoutView(MethodView):
     #Update a parcel delivery order
     #@app.route('/api/v1/parcels/<int:orderID>/update', methods=['PUT'])
     @jwt_required
-    def updateparcelOrder(self, orderID):
+    def UpdateOrder(self, orderID):
         """ updating a parcel """
 
         identity = get_jwt_identity()
@@ -244,7 +240,7 @@ class LogoutView(MethodView):
     #Get a parcel by ID
     #@app.route('/api/v1/parcels/<int:orderID>', methods=['GET'])
     @jwt_required
-    def delivery_Order(self, orderID):
+    def ParcelOrder(self, orderID):
         """ selecting a parcel by id """
             
         parcel = database.getoneparcel(orderID)
@@ -252,6 +248,29 @@ class LogoutView(MethodView):
             return jsonify({"parcels":parcel,"status":"success"}), 200
         return jsonify({"message":'Sorry parcel not found!',"status":"failed"}), 404
 
-app.add_url_rule('/api/v1/logout', view_func= LogoutView.as_view('logout_view'),
+app.add_url_rule('/api/v1/logout', view_func= LogoutView.as_view('Logout'),
                  methods=["DELETE"])
+app.add_url_rule('/api/v1/signup', view_func= SignupView.as_view('Signup'),
+                 methods=["POST"])
+app.add_url_rule('/api/v1/login', view_func= LoginView.as_view('Login'),
+                 methods=["POST"])
+app.add_url_rule('/api/v1/users', view_func= UserView.as_view('Listusers'),
+                 methods=["GET"])
+app.add_url_rule('/api/v1/users/<int:userid>', view_func= UserView.as_view('Getuserbyid'),
+                 methods=["GET"])
+app.add_url_rule('/api/v1/users/<int:userid>/promote', view_func= UserView.as_view('Promote'),
+                 methods=["PUT"])
 
+app.add_url_rule('/api/v1/parcels', view_func= ParcelView.as_view('CreatedeliveryOrder'),
+                 methods=["POST"])
+app.add_url_rule('/api/v1/parcels', view_func= ParcelView.as_view('ListOrder'),
+                 methods=["GET"])
+
+app.add_url_rule('/api/v1/users/<int:userID>/parcels', view_func= ParcelView.as_view('UserOrders'),
+                 methods=["GET"])
+app.add_url_rule('/api/v1/parcels/<int:orderID>/cancel', view_func= ParcelView.as_view('CancelOrder'),
+                 methods=["PUT"])
+app.add_url_rule('//api/v1/parcels/<int:orderID>/update', view_func= ParcelView.as_view('UpdateOrder'),
+                 methods=["PUT"])
+app.add_url_rule('/api/v1/parcels/<int:orderID>', view_func= ParcelView.as_view('ParcelOrder'),
+                 methods=["GET"])
