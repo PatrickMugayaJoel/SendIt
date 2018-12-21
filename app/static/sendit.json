@@ -1,0 +1,362 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Send It",
+    "description": "This is an API for a system that allows a user to contract a company to move his/her parcels from one point to another",
+    "version": "v2"
+  },
+  "servers": [
+    {
+      "url": "localhost:5000/api/v1"
+    },
+    {
+      "url": "https://sendit-api-heroku.herokuapp.com/api/v1"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "User can login.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "delete": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "User can logout.",
+        "responses": {
+          "200": {
+            "description": "Successfully logged out"
+          },
+          "401": {
+            "description": "Token was revoked"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "signup",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully registered"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401" : {
+            "description" : "Unauthorized - Functionality only for admins"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Returns users available",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "There are no users"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+    },
+    "/users/{userid}":{
+      "get":{
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "description": "Get users by their id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "summary": "Returns users by their id",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+    },
+    "/users/{userid}/promote":{
+      "put": {
+        "tags": [
+          "Users"        
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "description": "Get users by their id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/parcels": {
+      "get": {
+        "tags": [
+          "Parcels"
+        ],
+        "summary": "Returns a parcels.",
+        "responses": {
+          "200": {
+            "description": "Parcels were found"
+          },
+          "404": {
+            "description": "No parcels"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Parcels"
+        ],
+        "summary": "Create a parcel delivery order",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Parcel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Parcel order created"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
+    "/users/{userID}/parcels":{
+      "get":{
+        "tags": [
+          "Users"        
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "description": "Get parcels by userid",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Parcels were found"
+          },
+          "404": {
+            "description": "No parcels"
+          }
+        },
+      }
+    },
+  },
+  "components": {
+    "schemas": {
+      "Parcel": {
+        "properties": {
+          "pickuplocation": {
+            "type": "string",
+            "example":"Kampala"
+          },
+          "destination": {
+            "type": "string",
+            "example":"Mbarara"
+          },
+          "price":{
+            "type": "integer",
+            "example":"10000"
+          },
+          "parcelsize":{
+            "type": "string",
+            "example":"5kgs"
+          }
+        },
+        "required": [
+            "pickuplocation",
+            "destination",
+            "price",
+            "parcelsize"
+          ]
+      },
+      "Login": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "hero"
+          },
+          "password": {
+            "type": "string",
+            "example": "admin"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "Signup": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "test"
+          },
+          "username": {
+            "type": "string",
+            "example": "test"
+          },
+          "password": {
+            "type": "string",
+            "example": "admin"
+          }
+        },
+        "required": [
+          "name",
+          "username",
+          "password"
+        ]
+      },
+      "Parcel-Modify":{
+        "properties": {
+          "pickuplocation": {
+            "type": "string",
+            "example":"Kampala"
+          },
+          "destination": {
+            "type": "string",
+            "example":"Mbarara"
+          },
+          "price":{
+            "type": "integer",
+            "example":"10000"
+          },
+          "parcelsize":{
+            "type": "string",
+            "example":"5kgs"
+          }
+        },
+        "required": [
+            "pickuplocation",
+            "destination",
+            "price",
+            "parcelsize"
+          ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
